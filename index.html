@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mate pentru fiecare · Pregătire pentru examen</title>
+<style>
+:root{
+  --bg:#f5f7fb;--bg2:#e9eef9;--surface:#ffffff;--ink:#0f1b33;--muted:#5b6780;--line:#dde4f0;
+  --brand:#2f5bff;--brand2:#12b5a6;--accent:#ff8a3d;--ring:rgba(47,91,255,.28);
+  --shadow:0 1px 2px rgba(15,27,51,.06),0 8px 24px rgba(15,27,51,.06);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0b1220;--bg2:#101a30;--surface:#131e36;--ink:#eef2fb;--muted:#9aa8c4;--line:#22304f;
+  --brand:#7a96ff;--brand2:#3ad1c2;--accent:#ffa566;--ring:rgba(122,150,255,.35);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,"DejaVu Sans",sans-serif;color:var(--ink);
+  background:radial-gradient(900px 500px at 85% -10%,color-mix(in srgb,var(--brand) 14%,transparent),transparent 60%),
+  radial-gradient(700px 420px at -5% 10%,color-mix(in srgb,var(--brand2) 12%,transparent),transparent 60%),var(--bg);
+  min-height:100vh;-webkit-font-smoothing:antialiased}
+.sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.fl{position:absolute;font-family:"Cambria","DejaVu Serif",Georgia,serif;color:var(--brand);opacity:.11;user-select:none;animation:drift linear infinite;will-change:transform}
+@keyframes drift{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}100%{transform:translate(0,0) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.fl{animation:none}}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+/* bara de sus */
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;margin:0 -16px;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s,box-shadow .2s}
+nav.stuck{border-bottom-color:var(--line);box-shadow:0 6px 18px rgba(15,27,51,.08)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo i{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font:700 19px Georgia,serif;font-style:normal;box-shadow:0 6px 16px var(--ring)}
+.logo span small{display:block;font-weight:500;font-size:.72rem;color:var(--muted);letter-spacing:0}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 .78rem inherit;font-family:inherit;padding:6px 12px;border-radius:999px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible,.cta:focus-visible,.card:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:"main msg" "cta msg";column-gap:36px;row-gap:6px;align-items:center;padding:30px 32px;margin-top:6px;background:color-mix(in srgb,var(--surface) 82%,transparent);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.hero-main{grid-area:main}.msg{grid-area:msg}.cta-wrap{grid-area:cta}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+.eyebrow:before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+h1{font-size:clamp(1.9rem,5.2vw,3.3rem);line-height:1.07;letter-spacing:-.03em;margin:12px 0 14px;font-weight:800;overflow-wrap:anywhere}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1rem,2.2vw,1.1rem);line-height:1.6;color:var(--muted);margin:0 0 18px}
+/* mesajul de încurajare: card compact, text mare, navigare cu săgeți */
+.msg{position:relative;display:flex;flex-direction:column;justify-content:center;gap:10px;min-height:0;padding:16px 18px 14px 22px;border-radius:20px;color:#fff;overflow:hidden;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000),color-mix(in srgb,var(--brand2) 88%,#000));box-shadow:0 12px 30px var(--ring)}
+.msg:before{content:"“";position:absolute;right:14px;top:-26px;font:700 130px/1 Georgia,serif;color:rgba(255,255,255,.15);pointer-events:none}
+.msg small{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.msg p{margin:0;font-size:clamp(1.45rem,3.8vw,2.2rem);line-height:1.2;font-weight:800;letter-spacing:-.02em;transition:opacity .3s,transform .3s;min-height:3.6em;display:flex;align-items:center}
+.msg p.out{opacity:0;transform:translateY(6px)}
+.msgnav{display:flex;align-items:center;gap:10px}
+.msgnav button{width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.2);color:#fff;display:grid;place-items:center;transition:background .15s,transform .15s;-webkit-tap-highlight-color:transparent}
+.msgnav button:hover{background:rgba(255,255,255,.34)}.msgnav button:active{transform:scale(.94)}
+.msgnav button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:12px;padding:12px 20px;font:700 .95rem inherit;font-family:inherit;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .15s,box-shadow .15s}
+.cta.p{background:var(--brand);color:#fff;box-shadow:0 8px 20px var(--ring)}
+.cta.s{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.cta:hover{transform:translateY(-2px)}
+.cta.off{opacity:.5;pointer-events:none}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;grid-template-areas:"main" "msg" "cta";row-gap:18px;padding:22px 18px}
+}
+/* secțiuni */
+h2{display:flex;align-items:center;gap:14px;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:38px 0 14px;font-weight:700}
+h2:after{content:"";flex:1;height:1px;background:var(--line)}
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;color:inherit;text-decoration:none;box-shadow:var(--shadow);transition:transform .18s,border-color .18s,box-shadow .18s}
+a.card:hover,.card.lk:hover{transform:translateY(-3px);border-color:var(--brand);box-shadow:0 12px 30px var(--ring)}
+.card .no{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:800;background:color-mix(in srgb,var(--brand) 12%,transparent);color:var(--brand)}
+.card h3{font-size:1rem;line-height:1.3;margin:2px 0 0;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.tags span{font-size:.7rem;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.card a.stretch{position:absolute;inset:0;border-radius:18px;z-index:1}
+.card .th{position:relative;z-index:2;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,transparent);border-radius:999px;padding:5px 11px;text-decoration:none;margin-top:6px}
+.card .th:hover{background:color-mix(in srgb,var(--brand) 20%,transparent)}
+.card .th.off{color:var(--muted);background:var(--bg2);pointer-events:none;font-weight:600}
+.card .go{position:absolute;right:16px;top:16px;color:var(--muted);transition:transform .18s,color .18s}
+a.card:hover .go,.card.lk:hover .go{transform:translateX(3px);color:var(--brand)}
+.card.hl{background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000),color-mix(in srgb,var(--brand2) 85%,#000));color:#fff;border-color:transparent}
+.card.hl p,.card.hl .go{color:rgba(255,255,255,.82)}
+.card.hl .no{background:rgba(255,255,255,.18);color:#fff}
+.card.hl .tags span{color:#fff;border-color:rgba(255,255,255,.4)}
+.card.off{opacity:.55;filter:saturate(.6)}
+.card.off:after{content:attr(data-soon);position:absolute;right:14px;top:14px;font-size:.68rem;font-weight:700;background:var(--bg2);color:var(--muted);border-radius:999px;padding:2px 9px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:14px}
+.stats{display:flex;gap:10px 28px;flex-wrap:wrap;margin:22px 0 0;color:var(--muted);font-size:.88rem}
+.stats b{display:block;font-size:1.5rem;color:var(--ink);letter-spacing:-.02em}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer a{color:var(--brand)}
+@media(max-width:520px){.hero{padding:18px 14px;border-radius:22px}nav{padding:10px 14px;margin:0 -16px}.logo span small{display:none}.card{padding:16px}.cta{flex:1 1 100%}.seg button{padding:8px 12px}.card .th{padding:9px 14px;font-size:.85rem}.stats b{font-size:1.25rem}footer{flex-direction:column}}
+@media(hover:none){a.card:hover,.card.lk:hover{transform:none}.cta:hover{transform:none}}
+</style></head>
+<body>
+<div class="sky" id="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <nav>
+    <div class="logo"><i>π</i><span id="brand">Mate pentru fiecare<small id="brandSub"></small></span></div>
+    <div class="seg" id="langs" role="group" aria-label="Language"></div>
+  </nav>
+  <header class="hero">
+    <div class="hero-main">
+      <div class="eyebrow" id="eyebrow"></div>
+      <h1 id="h1"></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+    <aside class="msg" id="msg" aria-live="polite">
+      <small id="msgLabel"></small>
+      <p id="cheer"></p>
+      <div class="msgnav">
+        <button type="button" id="prevMsg" aria-label="Previous"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button type="button" id="nextMsg" aria-label="Next"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </aside>
+    <div class="cta-wrap">
+      <div class="ctas" id="ctas"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </header>
+
+  <h2 id="sec1"></h2>
+  <div class="big" id="special"></div>
+
+  <h2 id="sec2"></h2>
+  <div class="grid" id="items"></div>
+
+  <footer>
+    <span>© 2026 Godovaniuc Ana</span>
+    <span><span id="lic"></span> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></span>
+  </footer>
+</div>
+
+<script>
+/* ==========================================================================================
+   ▼▼▼  AICI PLASEZI LINKURILE  ▼▼▼
+   Pentru fiecare pagină, înlocuiește valoarea dintre ghilimele cu adresa (URL) paginii tale
+   din Google Sites (sau cu numele fișierului, dacă pagina e găzduită alături).
+   Cât timp valoarea este null, cardul apare gri, cu mesajul „în curând”.
+   ========================================================================================== */
+var LINKS = {
+  testComplet : 'test-complet.html',   // ← LINK: pagina „Test complet · 2 ore”
+  dinExamene  : 'din-examene.html',                  // ← LINK: pagina „Din examenele și exersările anterioare”
+
+  1  : 'item-01.html',                 // ← LINK: Itemul 1  · Calcule cu numere reale
+  2  : 'item-02.html',                 // ← LINK: Itemul 2  · Geometrie: unghiuri, cerc, linia mijlocie
+  3  : 'item-03.html',                           // ← LINK: Itemul 3  · Ecuația de gradul II
+  4  : 'item-04.html',                           // ← LINK: Itemul 4  · Rapoarte, proporții, procente
+  5  : 'item-05.html',                           // ← LINK: Itemul 5  · Funcții și grafice
+  6  : 'item-06.html',                           // ← LINK: Itemul 6  · Inecuații
+  7  : 'item-07.html',                           // ← LINK: Itemul 7  · Puteri și radicali
+  8  : 'item-08.html',                           // ← LINK: Itemul 8  · Triunghiuri și patrulatere
+  9  : 'item-09.html',                           // ← LINK: Itemul 9  · Probleme cu sisteme de ecuații
+  10 : 'item-10.html',                           // ← LINK: Itemul 10 · Paralelipiped și cub
+  11 : 'item-11.html',                           // ← LINK: Itemul 11 · Fracții algebrice
+  12 : 'item-12.html'                            // ← LINK: Itemul 12 · Funcția de gradul II cu parametru
+};
+/* Fișele cu TEORIA, câte una pentru fiecare item. Se pun la fel: URL-ul paginii sau null. */
+var THEORY_LINKS = {
+  1  : 'item-01.html?view=theory',   // ← LINK: Teorie · Itemul 1  (Calcule cu numere reale)
+  2  : 'item-02.html?view=theory',   // ← LINK: Teorie · Itemul 2  (Geometrie)
+  3  : 'item-03.html?view=theory',   // ← LINK: Teorie · Itemul 3  (Ecuația de gradul II)
+  4  : 'item-04.html?view=theory',   // ← LINK: Teorie · Itemul 4  (Rapoarte, proporții, procente)
+  5  : 'item-05.html?view=theory',   // ← LINK: Teorie · Itemul 5  (Funcții și grafice)
+  6  : 'item-06.html?view=theory',   // ← LINK: Teorie · Itemul 6  (Inecuații)
+  7  : 'item-07.html?view=theory',   // ← LINK: Teorie · Itemul 7  (Puteri și radicali)
+  8  : 'item-08.html?view=theory',   // ← LINK: Teorie · Itemul 8  (Triunghiuri și patrulatere)
+  9  : 'item-09.html?view=theory',   // ← LINK: Teorie · Itemul 9  (Sisteme de ecuații)
+  10 : 'item-10.html?view=theory',   // ← LINK: Teorie · Itemul 10 (Paralelipiped și cub)
+  11 : 'item-11.html?view=theory',   // ← LINK: Teorie · Itemul 11 (Fracții algebrice)
+  12 : 'item-12.html?view=theory'    // ← LINK: Teorie · Itemul 12 (Funcția de gradul II cu parametru)
+};
+/* Cum se deschid paginile: '_top' = în toată fereastra (recomandat în Google Sites),
+   '_self' = în același cadru, '_blank' = filă nouă. */
+var LINK_TARGET = '_top';
+/* ▲▲▲  SFÂRȘITUL ZONEI CU LINKURI  ▲▲▲ ================================================== */
+
+var ITEM_TITLES = {
+ 1:{ro:'Calcule cu numere reale',ru:'Вычисления с действительными числами',en:'Calculations with real numbers'},
+ 2:{ro:'Geometrie: unghiuri, cerc, linia mijlocie',ru:'Геометрия: углы, окружность, средняя линия',en:'Geometry: angles, circle, midline'},
+ 3:{ro:'Ecuația de gradul II',ru:'Квадратное уравнение',en:'Quadratic equations'},
+ 4:{ro:'Rapoarte, proporții, procente',ru:'Отношения, пропорции, проценты',en:'Ratios, proportions, percentages'},
+ 5:{ro:'Funcții și grafice',ru:'Функции и графики',en:'Functions and graphs'},
+ 6:{ro:'Inecuații',ru:'Неравенства',en:'Inequalities'},
+ 7:{ro:'Puteri și radicali',ru:'Степени и радикалы',en:'Powers and radicals'},
+ 8:{ro:'Triunghiuri și patrulatere: lungimi și arii',ru:'Треугольники и четырёхугольники: длины и площади',en:'Triangles and quadrilaterals: lengths and areas'},
+ 9:{ro:'Probleme rezolvate cu sisteme de ecuații',ru:'Задачи на системы уравнений',en:'Word problems with systems of equations'},
+ 10:{ro:'Corpuri geometrice: paralelipiped și cub',ru:'Геометрические тела: параллелепипед и куб',en:'Solids: cuboid and cube'},
+ 11:{ro:'Fracții algebrice',ru:'Алгебраические дроби',en:'Algebraic fractions'},
+ 12:{ro:'Funcția de gradul II cu parametru',ru:'Квадратичная функция с параметром',en:'Quadratic function with a parameter'}
+};
+var T={
+ brandSub:{ro:'Pregătire pentru examen',ru:'Подготовка к экзамену',en:'Exam preparation'},
+ eyebrow:{ro:'Matematică · gimnaziu',ru:'Математика · гимназия',en:'Mathematics · lower secondary'},
+ h1:{ro:'Exersează fiecare item, <em>pas cu pas</em>.',ru:'Тренируй каждое задание, <em>шаг за шагом</em>.',en:'Practise every item, <em>step by step</em>.'},
+ lead:{ro:'Exerciții generate automat, cu rezolvări, teste cronometrate și fișe PDF gata de tipărit. Alege un item sau încearcă o simulare completă de examen.',ru:'Автоматически создаваемые задания с решениями, тесты на время и готовые к печати листы PDF. Выбери пункт или попробуй полную симуляцию экзамена.',en:'Automatically generated exercises with solutions, timed tests and print-ready PDF sheets. Pick an item or try a full exam simulation.'},
+ cta1:{ro:'Începe testul complet',ru:'Начать полный тест',en:'Start the full test'},cta2:{ro:'Alege un item',ru:'Выбрать пункт',en:'Choose an item'},
+ s1:{ro:'12',ru:'12',en:'12'},
+ st1:{ro:'itemi de exersat',ru:'пунктов для тренировки',en:'items to practise'},st2:{ro:'ore pentru testul complet',ru:'часа на полный тест',en:'hours for the full test'},st3:{ro:'limbi: RO · RU · EN',ru:'языка: RO · RU · EN',en:'languages: RO · RU · EN'},
+ sec1:{ro:'Teste',ru:'Тесты',en:'Tests'},sec2:{ro:'Exersează pe itemi',ru:'Тренировка по пунктам',en:'Practise by item'},
+ test:{ro:'Test complet · 2 ore',ru:'Полный тест · 2 часа',en:'Full test · 2 hours'},testd:{ro:'Toți cei 12 itemi, ca la examen, cu cronometru. Poți genera oricâte teste noi.',ru:'Все 12 пунктов, как на экзамене, с таймером. Можно создавать любое число новых тестов.',en:'All 12 items like the real exam, with a timer. Generate as many new tests as you like.'},
+ past:{ro:'Din examenele și exersările anterioare',ru:'Из прошлых экзаменов и тренировок',en:'From past exams and practice'},pastd:{ro:'Sarcini reale din anii 2015–2026, alese aleatoriu, pe fiecare item.',ru:'Реальные задания 2015–2026 гг., выбираются случайно по каждому пункту.',en:'Real tasks from 2015–2026, picked at random for each item.'},
+ msgLabel:{ro:'Mesajul zilei',ru:'Сообщение дня',en:'Message of the day'},
+ theory:{ro:'Teorie',ru:'Теория',en:'Theory'},
+ item:{ro:'Itemul',ru:'Пункт',en:'Item'},soon:{ro:'în curând',ru:'скоро',en:'soon'},lic:{ro:'Licență',ru:'Лицензия',en:'License'},
+ tg1:{ro:'Exersare',ru:'Тренировка',en:'Practice'},tg2:{ro:'Test · 10',ru:'Тест · 10',en:'Test · 10'},tg3:{ro:'PDF',ru:'PDF',en:'PDF'},
+ tgT1:{ro:'Cronometru',ru:'Таймер',en:'Timer'},tgT2:{ro:'Teste noi',ru:'Новые тесты',en:'New tests'},tgT3:{ro:'Rezolvări',ru:'Решения',en:'Solutions'},tgP1:{ro:'2015–2026',ru:'2015–2026',en:'2015–2026'},tgP2:{ro:'Aleatoriu',ru:'Случайно',en:'Random'}
+};
+var CHEER={
+ ro:['Fiecare exercițiu te apropie de examen.','Greșelile sunt informații: învață din ele.','Un exercițiu pe zi face diferența.','Respiră, citește cu atenție, încearcă din nou.','Progresul mic, repetat, devine rezultat mare.','Ești mai pregătit decât crezi.','Nu trebuie să fii perfect, trebuie să începi.','Ce nu știi azi, știi mâine.','Încrederea se construiește exercițiu cu exercițiu.','Un calcul corect e o victorie. Mai vrei una?','Răbdarea de azi aduce nota de mâine.','Fiecare item rezolvat e un pas înainte.','Citește enunțul de două ori, rezolvă o dată.','Ai mai reușit. Poți din nou.','Matematica se învață făcând, nu privind.','Concentrează-te pe pasul următor, nu pe tot drumul.','Chiar și 10 minute pe zi contează.','Întrebările bune sunt începutul înțelegerii.','Astăzi exersezi, la examen ești liniștit.','Cine încearcă, în cele din urmă reușește.','Un pas mic azi, un salt mare mâine.','Curajul înseamnă să încerci chiar și când nu ești sigur.','Fiecare problemă are o cheie. Caut-o.','Nu compara ritmul tău cu al altora.','Mintea se antrenează ca un mușchi.','Calmul e jumătate din rezolvare.','Verifică-ți răspunsul: ultima probă te face sigur.','Și marii matematicieni au greșit. Și au continuat.','Ai început. Asta e partea cea mai grea.','Transformă „nu pot” în „încă nu pot”.','Un exercițiu greu azi e unul ușor mâine.','Odihna face parte din învățare.','Nu te grăbi: acuratețea bate viteza.','Dacă te blochezi, desenează problema.','Fiecare răspuns corect îți crește încrederea.','Obiceiurile mici construiesc rezultate mari.','Înțelegerea valorează mai mult decât memorarea.','Bucură-te de fiecare progres, oricât de mic.','Pregătirea de acum îți dă liniște la examen.','Învață din greșeală, apoi mergi mai departe.','Perseverența învinge frica de examen.','Ai un plan: un item, un pas, o zi.','Nu renunța la a doua încercare.','Pornește de la ce știi deja și construiește.','Rezolvă cu plăcere, nu cu frică.','Fiecare test e o repetiție, nu o sentință.','Fii mândru de efortul tău.','O minte odihnită gândește mai clar.','Mai ai un exercițiu în tine.','Succesul e suma unor eforturi mici, repetate.'],
+ ru:['Каждое задание приближает тебя к экзамену.','Ошибки — это информация: учись на них.','Одно задание в день решает многое.','Вдохни, читай внимательно, попробуй ещё раз.','Маленький прогресс, повторённый много раз, даёт большой результат.','Ты подготовлен лучше, чем думаешь.','Не нужно быть идеальным — нужно начать.','Чего не знаешь сегодня, узнаешь завтра.','Уверенность строится задание за заданием.','Верный ответ — это победа. Хочешь ещё одну?','Сегодняшнее терпение — завтрашняя оценка.','Каждый решённый пункт — шаг вперёд.','Прочитай условие дважды, реши один раз.','У тебя уже получалось. Получится и сейчас.','Математике учатся, решая, а не наблюдая.','Думай о следующем шаге, а не обо всём пути.','Даже 10 минут в день — это важно.','Хорошие вопросы — начало понимания.','Сегодня тренируешься — на экзамене спокоен.','Кто пробует, у того получается.','Маленький шаг сегодня — большой прыжок завтра.','Смелость — пробовать, даже когда не уверен.','У каждой задачи есть ключ. Найди его.','Не сравнивай свой темп с чужим.','Ум тренируется, как мышца.','Спокойствие — половина решения.','Проверь ответ: последняя проверка даёт уверенность.','Великие математики тоже ошибались — и продолжали.','Ты уже начал. Это самое трудное.','Замени «не могу» на «пока не могу».','Трудное задание сегодня — лёгкое завтра.','Отдых — часть обучения.','Не спеши: точность важнее скорости.','Застрял — нарисуй задачу.','Каждый верный ответ добавляет уверенности.','Маленькие привычки создают большие результаты.','Понимание ценнее заучивания.','Радуйся каждому успеху, даже маленькому.','Подготовка сегодня — спокойствие на экзамене.','Учись на ошибке и иди дальше.','Упорство побеждает страх перед экзаменом.','У тебя есть план: пункт, шаг, день.','Не сдавайся на второй попытке.','Начни с того, что уже знаешь, и строй дальше.','Решай с удовольствием, а не со страхом.','Каждый тест — репетиция, а не приговор.','Гордись своими усилиями.','Отдохнувший ум думает яснее.','В тебе есть ещё одно решённое задание.','Успех — сумма маленьких повторяющихся усилий.'],
+ en:['Every exercise brings you closer to the exam.','Mistakes are information: learn from them.','One exercise a day makes a difference.','Breathe, read carefully, try again.','Small progress, repeated, becomes a big result.','You are more ready than you think.','You don’t have to be perfect, you have to start.','What you don’t know today, you will tomorrow.','Confidence is built one exercise at a time.','One correct answer is a win. Want another?','Today’s patience is tomorrow’s grade.','Every solved item is a step forward.','Read the problem twice, solve it once.','You have done it before. You can do it again.','Maths is learned by doing, not watching.','Focus on the next step, not the whole road.','Even 10 minutes a day counts.','Good questions are the start of understanding.','Practise today, stay calm on exam day.','Those who keep trying eventually succeed.','A small step today, a big leap tomorrow.','Courage is trying even when you are not sure.','Every problem has a key. Go find it.','Don’t compare your pace with anyone else’s.','The mind trains like a muscle.','Staying calm is half of solving.','Check your answer: the last test makes you sure.','Great mathematicians made mistakes too, and kept going.','You have started. That is the hardest part.','Turn “I can’t” into “I can’t yet”.','A hard exercise today is an easy one tomorrow.','Rest is part of learning.','Don’t rush: accuracy beats speed.','If you get stuck, draw the problem.','Every correct answer builds your confidence.','Small habits build big results.','Understanding is worth more than memorising.','Enjoy every bit of progress, however small.','Preparing now brings calm on exam day.','Learn from the mistake, then move on.','Perseverance beats exam fear.','You have a plan: one item, one step, one day.','Don’t give up on the second try.','Start from what you already know and build on it.','Solve with pleasure, not fear.','Every test is a rehearsal, not a verdict.','Be proud of your effort.','A rested mind thinks more clearly.','You have one more exercise in you.','Success is the sum of small efforts repeated.']
+};
+var lang='ro';try{var sl=localStorage.getItem('mpf-lang');if(sl&&T.h1[sl])lang=sl;}catch(e){}
+try{var q=new URLSearchParams(location.search).get('lang');if(q&&T.h1[q])lang=q;}catch(e){}
+function $(id){return document.getElementById(id)}
+var ARROW='<svg class="go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function card(url,no,title,desc,tags,hl,theoryUrl,showTheory){
+  var el=document.createElement('div');el.className='card'+(hl?' hl':'')+(url?' lk':' off');el.setAttribute('data-soon',T.soon[lang]);
+  el.innerHTML='<div class="no">'+no+'</div><h3>'+title+'</h3>'+(desc?'<p>'+desc+'</p>':'')+'<div class="tags">'+tags.map(function(t){return '<span>'+t+'</span>'}).join('')+'</div>'+(url?ARROW:'');
+  if(showTheory){var th=document.createElement('a');th.className='th'+(theoryUrl?'':' off');th.textContent='📖 '+T.theory[lang]+(theoryUrl?'':' · '+T.soon[lang]);if(theoryUrl){th.href=theoryUrl;th.target=LINK_TARGET;}el.appendChild(th);}
+  if(url){var st=document.createElement('a');st.className='stretch';st.href=url;st.target=LINK_TARGET;st.setAttribute('aria-label',title);el.appendChild(st);}
+  return el;
+}
+function draw(){
+  document.documentElement.lang=lang;
+  $('brandSub').textContent=T.brandSub[lang];$('eyebrow').textContent=T.eyebrow[lang];$('h1').innerHTML=T.h1[lang];$('lead').textContent=T.lead[lang];
+  $('sec1').textContent=T.sec1[lang];$('sec2').textContent=T.sec2[lang];$('lic').textContent=T.lic[lang];
+  var c=$('ctas');c.innerHTML='';
+  var a=document.createElement('a');a.className='cta p'+(LINKS.testComplet?'':' off');a.textContent=T.cta1[lang]+' →';if(LINKS.testComplet){a.href=LINKS.testComplet;a.target=LINK_TARGET;}c.appendChild(a);
+  var b=document.createElement('a');b.className='cta s';b.href='#itemi';b.textContent=T.cta2[lang];b.onclick=function(e){e.preventDefault();$('sec2').scrollIntoView({behavior:'smooth'})};c.appendChild(b);
+  $('stats').innerHTML='<div><b>12</b>'+T.st1[lang]+'</div><div><b>2</b>'+T.st2[lang]+'</div><div><b>3</b>'+T.st3[lang]+'</div>';
+  var sp=$('special');sp.innerHTML='';
+  sp.appendChild(card(LINKS.testComplet,'12',T.test[lang],T.testd[lang],[T.tgT1[lang],T.tgT2[lang],T.tgT3[lang]],true));
+  sp.appendChild(card(LINKS.dinExamene,'★',T.past[lang],T.pastd[lang],[T.tgP1[lang],T.tgP2[lang]],false));
+  var it=$('items');it.innerHTML='';
+  for(var n=1;n<=12;n++)it.appendChild(card(LINKS[n],n,ITEM_TITLES[n][lang],'',[T.tg1[lang],T.tg2[lang],T.tg3[lang]],false,THEORY_LINKS[n],true));
+  var lg=$('langs');lg.innerHTML='';
+  ['ro','ru','en'].forEach(function(l){var x=document.createElement('button');x.type='button';x.textContent=l.toUpperCase();x.className=l===lang?'on':'';x.onclick=function(){lang=l;try{localStorage.setItem('mpf-lang',l)}catch(e){}draw();cheer(true)};x.setAttribute('aria-pressed',l===lang);lg.appendChild(x)});
+}
+var ci=Math.floor(Math.random()*CHEER.ro.length);
+function cheer(now){var el=$('cheer'),arr=CHEER[lang];$('msgLabel').textContent=T.msgLabel[lang];
+  function put(){el.textContent=arr[ci%arr.length];}
+  if(now){put();return}
+  el.classList.add('out');setTimeout(function(){put();el.classList.remove('out')},220)}
+function step(d){var n=CHEER[lang].length;ci=(ci+d+n)%n;cheer(false)}
+$('prevMsg').onclick=function(){step(-1)};$('nextMsg').onclick=function(){step(1)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')step(1);else if(e.key==='ArrowLeft')step(-1)});
+/* simboluri matematice discrete, care plutesc aleatoriu în fundal */
+function sky(){var s=$('sky'),sym=['π','+','−','×','÷','=','√','∠','△','%','x²','½','∞','∑','°','⟂','∥','a²+b²=c²','f(x)','Δ'];
+  var n=Math.min(26,Math.floor(innerWidth/48));
+  for(var i=0;i<n;i++){var e=document.createElement('span');e.className='fl';e.textContent=sym[Math.floor(Math.random()*sym.length)];
+    e.style.left=Math.random()*100+'vw';e.style.top=Math.random()*100+'vh';e.style.fontSize=(18+Math.random()*40)+'px';
+    e.style.animationDuration=(5+Math.random()*8)+'s';e.style.animationDelay=(-Math.random()*12)+'s';
+    e.style.setProperty('--dx',(Math.random()*260-130)+'px');e.style.setProperty('--dy',(Math.random()*260-130)+'px');e.style.setProperty('--rot',(Math.random()*120-60)+'deg');
+    s.appendChild(e)}}
+draw();cheer(true);sky();
+var navEl=document.querySelector('nav');function onScroll(){navEl.classList.toggle('stuck',(window.scrollY||document.documentElement.scrollTop)>8)}window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script><!-- MateTutor – Widget plutitor cu buton rotund -->
+<!-- Lipește acest bloc înainte de </body> în pagina ta -->
+
+<div id="matetutor-launcher">
+  <button id="matetutor-btn" onclick="toggleMateTutor()" aria-label="Deschide MateTutor">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+      <circle cx="24" cy="24" r="22" fill="white" fill-opacity="0.15"/>
+      <path d="M24 8L6 18l18 10 18-10L24 8z" fill="white"/>
+      <path d="M12 22v10c0 2 5.4 6 12 6s12-4 12-6V22" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M42 18v12" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="42" cy="31" r="1.5" fill="white"/>
+      <text x="24" y="29" text-anchor="middle" font-size="10" font-weight="700" fill="#2563EB" font-family="Inter, system-ui, sans-serif">π</text>
+    </svg>
+  </button>
+  <div id="matetutor-window" style="display:none;">
+    <div id="matetutor-header">
+      <span>MateTutor</span>
+      <button onclick="toggleMateTutor()" aria-label="Închide" style="background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;">&times;</button>
+    </div>
+    <div id="matetutor-frame-wrap">
+      <div id="matetutor-loading">Se încarcă MateTutor…</div>
+      <iframe
+        id="matetutor-iframe"
+        data-src="https://matemate-tutor-bubdib.abacusai.app"
+        title="MateTutor – Tutore AI de Matematică"
+        allow="clipboard-write"
+        onload="var l=document.getElementById('matetutor-loading'); if(l) l.style.display='none';">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+  #matetutor-launcher {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  #matetutor-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #2563EB;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  #matetutor-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.5);
+  }
+  #matetutor-window {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    height: 640px;
+    max-height: calc(100vh - 120px);
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+  }
+  #matetutor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2563EB;
+    color: #fff;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 15px;
+    flex: 0 0 auto;
+  }
+  #matetutor-frame-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  #matetutor-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 14px;
+    background: #f8fafc;
+  }
+  #matetutor-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  @media (max-width: 480px) {
+    #matetutor-window {
+      width: calc(100vw - 24px);
+      right: 12px;
+      height: calc(100vh - 110px);
+    }
+  }
+</style>
+
+<script>
+  function toggleMateTutor() {
+    var w = document.getElementById('matetutor-window');
+    var b = document.getElementById('matetutor-btn');
+    var f = document.getElementById('matetutor-iframe');
+    var isOpen = (w.style.display !== 'none' && w.style.display !== '');
+    if (isOpen) {
+      w.style.display = 'none';
+      b.style.display = 'flex';
+    } else {
+      // Încarcă iframe-ul abia la prima deschidere (evită fereastra goală)
+      if (!f.src) { f.src = f.getAttribute('data-src'); }
+      w.style.display = 'flex';
+      b.style.display = 'none';
+    }
+  }
+</script>
+
+<style>@media print{#matetutor-launcher{display:none!important}}body:has(#pdfOverlay:not([hidden])) #matetutor-launcher{display:none!important}</style>
+</body></html>

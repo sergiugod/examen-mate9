@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Item 6 · Mate pentru fiecare</title>
+<style>:root{
+  --bg:#f5f7fb;--bg2:#e9eef9;--surface:#ffffff;--ink:#0f1b33;--muted:#5b6780;--line:#dde4f0;
+  --brand:#2f5bff;--brand2:#12b5a6;--accent:#ff8a3d;--ring:rgba(47,91,255,.28);
+  --ok:#16a34a;--okbg:#e8f7ee;--bad:#e11d48;--badbg:#fdecef;--warn:#f59e0b;--warnbg:#fff6e0;
+  --shadow:0 1px 2px rgba(15,27,51,.06),0 8px 24px rgba(15,27,51,.06);
+  --fig:#1d2f4f;--figbad:#d6336c;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0b1220;--bg2:#101a30;--surface:#131e36;--ink:#eef2fb;--muted:#9aa8c4;--line:#22304f;
+  --brand:#7a96ff;--brand2:#3ad1c2;--accent:#ffa566;--ring:rgba(122,150,255,.35);
+  --ok:#4ade80;--okbg:#10301f;--bad:#fb7185;--badbg:#3a1520;--warn:#fbbf24;--warnbg:#33290d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);--fig:#dbe4ff;--figbad:#ff8fb1;}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Inter,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,"DejaVu Sans",sans-serif;color:var(--ink);
+background:radial-gradient(900px 500px at 85% -10%,color-mix(in srgb,var(--brand) 14%,transparent),transparent 60%),radial-gradient(700px 420px at -5% 10%,color-mix(in srgb,var(--brand2) 12%,transparent),transparent 60%),var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
+.board{max-width:1080px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;margin:0 -16px;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .logo{flex:none;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:grid;place-items:center;font:700 19px Georgia,serif;box-shadow:0 6px 16px var(--ring);text-decoration:none}
+.brand b{font-size:1rem;display:block;letter-spacing:-.01em;line-height:1.2}
+.brand small{display:block;color:var(--muted);font-size:.72rem}
+.tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tools .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px;box-shadow:var(--shadow)}
+.chip{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:6px 12px;font:600 .78rem inherit;font-family:inherit;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg)}
+.chip.teach{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--ink)}
+.chip.teach.on{background:var(--warn);color:#2b1d00;border-color:var(--warn)}
+.chip:focus-visible,.btn:focus-visible,.tab:focus-visible,.gcard:focus-visible,.opt:focus-visible,.lv:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+.paper{--sq:color-mix(in srgb,var(--brand) 13%,transparent);position:relative;background-color:color-mix(in srgb,var(--surface) 38%,transparent);background-image:linear-gradient(var(--sq) 1px,transparent 1px),linear-gradient(90deg,var(--sq) 1px,transparent 1px);background-size:24px 24px;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;box-shadow:none;padding:22px 24px 26px 56px;margin-top:16px;min-height:420px}
+.paper:before{content:"";position:absolute;left:38px;top:0;bottom:0;width:2px;background:var(--bad);opacity:.35}
+@media(max-width:720px){.paper{padding:16px 12px 20px 34px}.paper:before{left:22px}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px;padding:4px;background:var(--bg2);border-radius:14px;width:fit-content;max-width:100%}
+.tab{border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:10px;cursor:pointer;font:600 .88rem inherit;font-family:inherit}
+.tab:hover{color:var(--ink)}
+.tab.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+h1.t,h2.t{color:var(--ink);margin:2px 0 8px;letter-spacing:-.025em;font-weight:800}
+h1.t{font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.1}h2.t{font-size:1.35rem}
+.sub{color:var(--muted);margin:0 0 14px;line-height:1.55}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:14px;margin:14px 0}
+.gcard{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:transform .18s,border-color .18s,box-shadow .18s;box-shadow:var(--shadow)}
+.gcard:hover{transform:translateY(-3px);border-color:var(--brand);box-shadow:0 12px 30px var(--ring)}
+.gcard .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;background:color-mix(in srgb,var(--brand) 12%,transparent)}
+.gcard b{display:block;font-size:1.02rem;letter-spacing:-.01em}
+.gcard span{color:var(--muted);font-size:.88rem;line-height:1.45}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;background:var(--brand);color:#fff;border:1px solid transparent;border-radius:12px;padding:10px 18px;font:700 .92rem inherit;font-family:inherit;cursor:pointer;box-shadow:0 8px 20px var(--ring);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn.alt{background:var(--surface);color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn.warn{background:var(--accent);color:#2b1400;box-shadow:none}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.stat{display:inline-block;margin:0 6px 6px 0;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.85rem}
+.levels{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.lv{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;cursor:pointer;font:600 .82rem inherit;font-family:inherit;color:var(--muted)}
+.lv.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stage{display:block}
+@media(max-width:720px){.stage{grid-template-columns:1fr}.paper{padding:16px 14px 20px;border-radius:18px}}
+.mascot{display:flex;flex-direction:column;align-items:center;gap:8px;position:sticky;top:84px}
+.mascot .owl{width:90px;height:100px}
+.bubble{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px;padding:8px 10px;font-size:.82rem;text-align:center;position:relative;line-height:1.3;color:var(--ink)}
+.bubble:after{content:"";position:absolute;bottom:-8px;left:50%;margin-left:-8px;border:8px solid transparent;border-top-color:var(--line);border-bottom:0}
+@media(max-width:720px){.mascot{flex-direction:row;position:static}.mascot .owl{width:56px;height:62px}.bubble:after{display:none}}
+.owl.bounce{animation:bounce .6s}.owl.shake{animation:shake .5s}
+@keyframes bounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-14px)}60%{transform:translateY(0)}80%{transform:translateY(-6px)}}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.prob{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 12px;box-shadow:var(--shadow)}
+.prob.okp{border-color:var(--ok)}.prob.badp{border-color:var(--bad)}
+.pnum{flex:0 0 32px;height:32px;border-radius:10px;background:color-mix(in srgb,var(--brand) 14%,transparent);color:var(--brand);font-weight:800;display:flex;align-items:center;justify-content:center}
+.pbody{flex:1;min-width:0}
+.ptext{line-height:1.6;font-size:1.02rem}
+.pfig{margin:8px 0;max-width:300px}
+.pfig svg,svg.fig{width:100%;height:auto;display:block}
+.pfields{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;align-items:center}
+.fld{display:inline-flex;align-items:center;gap:6px;font-size:1.02rem}
+.fld .flab{white-space:nowrap}
+input.ans{width:104px;border:1px solid var(--line);border-bottom:3px solid var(--brand);background:var(--bg);color:var(--ink);font:700 1.05rem inherit;font-family:inherit;padding:6px 8px;border-radius:8px;outline:0}
+input.ans:focus{box-shadow:0 0 0 3px var(--ring)}
+input.ans.ok{border-color:var(--ok);background:var(--okbg)}
+input.ans.bad{border-color:var(--bad);background:var(--badbg)}
+.mark{font-weight:800;font-size:1.2rem}.mark.ok{color:var(--ok)}.mark.bad{color:var(--bad)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap}
+.opt{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 12px;cursor:pointer;font:600 .9rem inherit;font-family:inherit}
+.opt.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}.opt.ok{border-color:var(--ok);background:var(--okbg);color:var(--ink)}.opt.bad{border-color:var(--bad);background:var(--badbg);color:var(--ink)}
+.unit{color:var(--muted)}
+.fb{margin-top:10px;color:var(--bad);font-size:.95rem;line-height:1.5;font-weight:600}
+.fb.good{color:var(--ok)}
+.sol{margin-top:10px;background:var(--warnbg);border-left:4px solid var(--warn);border-radius:10px;padding:10px 14px;line-height:1.75}
+.key{margin-top:10px;background:color-mix(in srgb,var(--brand) 10%,transparent);border-left:4px solid var(--brand);border-radius:10px;padding:8px 14px;font-size:.93rem}
+.hintbox{margin-top:10px;background:var(--okbg);border-left:4px solid var(--ok);border-radius:10px;padding:8px 14px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.keypad{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;padding:8px;background:var(--bg2);border-radius:12px}
+.keypad button{min-width:40px;height:38px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);font-size:1.02rem;cursor:pointer;font-family:inherit}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .18em;line-height:1.12;font-size:.95em}
+.fr>i{font-style:normal;padding:0 .2em}.fr>i:first-child{border-bottom:1.5px solid currentColor}
+.sq{white-space:nowrap}.sq .ov{border-top:1.5px solid currentColor;padding:0 1px}
+sup{font-size:.7em;line-height:0}sub{font-size:.7em;line-height:0}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;text-align:center;box-shadow:var(--shadow)}
+.big{font:800 2.6rem inherit;font-family:inherit;letter-spacing:-.03em;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.badge{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:4px 10px;font-size:.88rem;font-weight:700}
+.timer{position:sticky;top:64px;z-index:5;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000),color-mix(in srgb,var(--brand2) 88%,#000));color:#fff;border-radius:14px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:700;box-shadow:0 8px 20px var(--ring)}
+.timer .t{font:700 1.3rem "DejaVu Sans Mono",monospace}.timer.low{background:#be123c}
+.itemhead{display:flex;align-items:center;gap:12px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px;font-weight:700}
+.itemhead:after{content:"";flex:1;height:1px;background:var(--line)}
+table.rt{border-collapse:collapse;width:100%;background:var(--surface)}
+table.rt td,table.rt th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+table.rt th{background:var(--bg2)}
+footer.lic{color:var(--muted);text-align:center;font-size:.8rem;padding:16px 6px 0}
+footer.lic a{color:var(--brand)}
+.modal{position:fixed;inset:0;background:rgba(10,16,32,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:12px}
+.modal .box{background:var(--surface);color:var(--ink);border-radius:18px;padding:20px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.modal input[type=text],.modal input[type=password],.modal input[type=number],.modal select,.codein,#pdfCode,#pdfN,#codein{width:100%;padding:9px 11px;font:inherit;font-size:1rem;border:1px solid var(--line);border-radius:10px;margin:4px 0 10px;background:var(--bg);color:var(--ink)}
+.codein,#codein{width:auto;margin:0}
+.modal label{font-weight:700;font-size:.9rem}
+.confetti{position:fixed;top:-20px;font-size:1.4rem;pointer-events:none;z-index:60;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.9}}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;z-index:70;font-size:.9rem}
+.teachbar{background:var(--warnbg);border:1px solid var(--warn);border-radius:12px;padding:8px 14px;margin-bottom:12px;font-size:.9rem;font-weight:700}
+.exbox{max-width:760px}.exh{font-weight:800;color:var(--brand);margin:16px 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.1em}
+.exsol{margin:0}.exrule{background:color-mix(in srgb,var(--brand2) 12%,transparent);border-left:4px solid var(--brand2);padding:10px 14px;border-radius:10px;line-height:1.55}
+.codehelp{font-size:.85rem;margin:4px 0 0}
+.tab{text-decoration:none;display:inline-block;font-size:.88rem;font-weight:600;font-family:inherit}
+.theory{max-width:780px}.theory h3{margin:20px 0 6px;font-size:1.02rem;color:var(--brand);letter-spacing:-.01em}
+.theory p,.theory li{line-height:1.65}.theory ul{padding-left:20px;margin:6px 0}
+.theory .box{background:color-mix(in srgb,var(--brand) 8%,transparent);border-left:4px solid var(--brand);border-radius:10px;padding:8px 14px;margin:8px 0}
+.theory .ex{background:var(--warnbg);border-left:4px solid var(--warn);border-radius:10px;padding:8px 14px;margin:8px 0}
+.theory table{border-collapse:collapse;margin:8px 0}.theory td,.theory th{border:1px solid var(--line);padding:5px 10px}
+/* ---- desen geometric ---- */
+svg.fig .gl{stroke:var(--fig);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+svg.fig .gl.hl{stroke:var(--figbad);stroke-width:2.2}
+svg.fig .gl.thin{stroke:var(--muted);stroke-width:1}
+svg.fig .gl.lineA{stroke:var(--fig)}
+svg.fig .gd{fill:var(--fig)}
+svg.fig .glab{font:italic 700 14px "Cambria","DejaVu Serif",serif;fill:var(--fig)}
+svg.fig .gtxt{font:12px "DejaVu Sans",sans-serif;fill:var(--muted)}
+svg.fig .ga{stroke:var(--figbad);stroke-width:1.5;fill:none}
+svg.fig .gang{font:700 11px "DejaVu Sans",sans-serif;fill:var(--figbad)}
+/* ---- fișa PDF ---- */
+#pdfOverlay{position:fixed;inset:0;background:#6b7280;z-index:80;overflow:auto}
+#pdfOverlay[hidden]{display:none}
+.pbar{position:sticky;top:0;z-index:2;background:#263238;color:#fff;display:flex;gap:8px;padding:8px 12px;align-items:center;flex-wrap:wrap}
+.sheets{padding:14px 0;display:flex;flex-direction:column;align-items:center;gap:14px}
+.sheet{box-sizing:border-box;width:210mm;height:297mm;padding:12mm;flex:none;background:#fff;color:#000;box-shadow:0 2px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;overflow:hidden;font-family:"Liberation Serif","Times New Roman","DejaVu Serif",serif;font-size:11.5pt}
+.sheet .shead{border-bottom:1.5px solid #000;padding-bottom:2mm;margin-bottom:3mm}
+.sheet .shead .t1{font-weight:700;font-size:13.5pt}
+.sheet .shead .t2{font-size:10.5pt;display:flex;justify-content:space-between;margin-top:.5mm}
+.sheet .shead .scoreln{margin-top:1mm}.pex .ppt{font-size:.85em;white-space:nowrap;font-weight:700}
+.sheet .shead .t3{margin-top:2.5mm;font-size:10.5pt;display:flex;gap:6mm}
+.sheet .shead .t3 span{flex:1;border-bottom:1px solid #000;white-space:nowrap}
+.sheet .cols{flex:1;min-height:0;column-gap:8mm;column-fill:auto;overflow:hidden}
+.sheet .cols.c1{column-count:1}.sheet .cols.c2{column-count:2}.sheet .cols.c3{column-count:3}
+.sheet .sfoot{border-top:.8px solid #555;margin-top:2mm;padding-top:1mm;font-size:8pt;color:#333;display:flex;justify-content:space-between}
+.pex{break-inside:avoid;page-break-inside:avoid;display:flex;gap:2mm;margin:0 0 3.2mm;line-height:1.4}
+.pex .pn{flex:0 0 6mm;font-weight:700}
+.pex .pc{flex:1;min-width:0}
+.pex .pbot{display:flex;flex-wrap:wrap;gap:1mm 3mm;align-items:flex-end;justify-content:space-between}.pex .pf{flex:0 0 40mm;margin:1mm 0 0 auto}.pex .pa>span{white-space:nowrap}.pex .pa>span.pch{white-space:normal;display:block;flex:1 0 100%}.pex .pco{display:block;margin-top:.6mm}
+.pex .pf svg{width:100%;height:auto}
+.pex .pa{flex:1 1 auto;margin-top:1.2mm;display:flex;flex-wrap:wrap;gap:1mm 5mm;align-items:baseline}
+.pex .bl{display:inline-block;min-width:17mm;border-bottom:1px solid #000;height:1.15em;vertical-align:baseline}
+.pdiv{break-inside:avoid;font-weight:700;border-bottom:1px dashed #000;margin:1mm 0 3mm;padding-bottom:.6mm;font-size:11pt;letter-spacing:.3px}
+.krow{break-inside:avoid;margin:0 0 1.6mm;line-height:1.35;font-size:10.5pt}
+.sheet .fr{font-size:.95em}
+.sheet svg.fig .gl{stroke:#000}.sheet svg.fig .gl.hl{stroke:#000;stroke-width:2.2}.sheet svg.fig .ga,.sheet svg.fig .gang{stroke:#000;fill:none}.sheet svg.fig .gang{fill:#000;stroke:none}.sheet svg.fig .glab,.sheet svg.fig .gd{fill:#000}
+@media print{
+  @page{size:A4;margin:12mm}
+  body.printing{background:#fff!important}
+  body.printing .board,body.printing .modal,body.printing .toast,body.printing .confetti{display:none!important}
+  body.printing #pdfOverlay{position:static!important;background:#fff!important;overflow:visible!important;display:block!important}
+  body.printing .pbar{display:none!important}
+  body.printing .sheets{display:block!important;padding:0!important;zoom:1!important}
+  body.printing .sheet{box-shadow:none!important;margin:0!important;padding:0!important;break-after:page;page-break-after:always;width:186mm;height:271mm}
+  body.printing .sheet:last-child{break-after:auto;page-break-after:auto}
+}
+
+.teachbox{margin-top:18px;padding:12px 14px;border:1px solid var(--warn);background:var(--warnbg);border-radius:14px}
+.teachbox input{width:auto;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+/* pagina „Din examenele anterioare” */
+.pmeta{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.pfilters{gap:10px 16px}.pfilters select{padding:6px 8px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;max-width:100%}
+.ptext img{max-width:100%;height:auto;vertical-align:middle}.ptext math{font-size:1.08em}
+@media print{.past-noprint,.top,.lic,.teachbar{display:none!important}.board,.paper{background:#fff!important;backdrop-filter:none!important}.prob{break-inside:avoid;box-shadow:none}}
+.pkey{margin:0 0 4px;padding-left:28px;columns:2;font-size:.92rem}.pkey li{break-inside:avoid;margin:2px 0}details.key summary{cursor:pointer}
+.pin{padding:8px 10px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;min-width:220px;max-width:100%}
+.pex .pt img{max-width:62mm;max-height:48mm;height:auto;vertical-align:middle}.pex .psrc{font-size:.7em;color:#555}.pex .pt math{font-size:1.05em}
+.pex .pt img{display:block;margin:1mm 0 1.5mm}
+</style></head>
+<body><div id="app"></div><div id="modal"></div><div id="pdfOverlay" hidden></div>
+<script>
+/* ← LINK: adresa paginii principale (start). Ex.: window.HOME_URL = 'https://sites.google.com/view/.../acasa'; */
+window.HOME_URL = null;
+window.__PAGE={"kind": "item", "n": 6};window.__EXAM_CFG={"minutes": 120, "points": {"1": 3, "2": 2, "3": 3, "4": 5, "5": 2, "6": 4, "7": 6, "8": 5, "9": 5, "10": 5, "11": 6, "12": 4}, "conv": [[0, 1], [1, 2], [5, 3], [9, 4], [13, 5], [21, 6], [29, 7], [37, 8], [45, 9], [48, 10]]};window.PASS_HASH="e43419c3ebbc4de79f6e66673cc564d67135e7c07b6d2e88a099d376859354de";</script>
+<script>
+'use strict';
+/* ================= CORE: RNG, fracții, parser matematic, verificare ================= */
+const LANGS = ['ro', 'ru', 'en'];
+const MINUS = '−';
+
+function hashSeed(str) {
+  let h = 1779033703 ^ str.length;
+  for (let i = 0; i < str.length; i++) { h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = (h << 13) | (h >>> 19); }
+  h = Math.imul(h ^ (h >>> 16), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909);
+  return (h ^ (h >>> 16)) >>> 0;
+}
+function RNG(seed) {
+  let a = hashSeed(String(seed));
+  const f = () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  f.int = (lo, hi) => lo + Math.floor(f() * (hi - lo + 1));
+  f.pick = arr => arr[Math.floor(f() * arr.length)];
+  f.chance = p => f() < p;
+  f.sign = () => (f() < .5 ? -1 : 1);
+  f.range = (lo, hi) => lo + f() * (hi - lo);
+  f.shuffle = arr => { arr = arr.slice(); for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(f() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; };
+  return f;
+}
+const randCode = () => { const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 6; i++) s += c[Math.floor(Math.random() * c.length)]; return s; };
+
+/* ---------- fracții ---------- */
+const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+class Q {
+  constructor(n, d = 1) { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; this.n = n / g; this.d = d / g; }
+  add(o) { return new Q(this.n * o.d + o.n * this.d, this.d * o.d); }
+  sub(o) { return new Q(this.n * o.d - o.n * this.d, this.d * o.d); }
+  mul(o) { return new Q(this.n * o.n, this.d * o.d); }
+  div(o) { return new Q(this.n * o.d, this.d * o.n); }
+  pow(k) { let r = new Q(1); for (let i = 0; i < k; i++) r = r.mul(this); return r; }
+  isInt() { return this.d === 1; }
+  isZero() { return this.n === 0; }
+  val() { return this.n / this.d; }
+}
+const qi = n => new Q(n);
+
+/* ---------- formatare HTML ---------- */
+const fmtInt = n => (n < 0 ? MINUS : '') + Math.abs(n);
+const frH = (n, d) => `<span class="fr"><i>${n}</i><i>${d}</i></span>`;
+const supH = s => `<sup>${s}</sup>`;
+const sqrtH = s => `<span class="sq">√<span class="ov">${s}</span></span>`;
+function qH(q, paren = false) {
+  let s = q.d === 1 ? fmtInt(q.n) : (q.n < 0 ? MINUS : '') + frH(Math.abs(q.n), q.d);
+  return paren && q.n < 0 ? '(' + s + ')' : s;
+}
+const qT = q => (q.d === 1 ? String(q.n) : q.n + '/' + q.d);
+const decS = (x, l) => String(x).replace('.', l === 'en' ? '.' : ',');
+
+/* ---------- parser de expresii ---------- */
+function normExpr(s) {
+  return String(s).trim()
+    .replace(/[−–—‑]/g, '-').replace(/[·×⋅∙•]/g, '*').replace(/[÷:]/g, '/')
+    .replace(/\s+/g, '').replace(/π/g, 'pi').replace(/²/g, '^2').replace(/³/g, '^3').replace(/⁴/g, '^4')
+    .replace(/√/g, 'sqrt').replace(/,/g, '.').replace(/[\{\[]/g, '(').replace(/[\}\]]/g, ')');
+}
+function compile(str) {
+  const s = normExpr(str);
+  if (!s) return null;
+  const toks = []; const re = /\d+\.?\d*|\.\d+|sqrt|pi|[a-z]|[-+*\/^()]/y; let pos = 0;
+  while (pos < s.length) { re.lastIndex = pos; const m = re.exec(s); if (!m || m.index !== pos) return null; toks.push(m[0]); pos = re.lastIndex; }
+  let p = 0; const peek = () => toks[p];
+  const isAtomStart = t => t !== undefined && (/^[\d.]/.test(t) || t === '(' || t === 'sqrt' || t === 'pi' || /^[a-z]$/.test(t));
+  function expr() {
+    let l = term();
+    while (peek() === '+' || peek() === '-') { const op = toks[p++]; const r = term(); const a = l; l = op === '+' ? (e => a(e) + r(e)) : (e => a(e) - r(e)); }
+    return l;
+  }
+  function term() {
+    let l = unary();
+    for (;;) {
+      const t = peek();
+      if (t === '*' || t === '/') { p++; const r = unary(); const a = l; l = t === '*' ? (e => a(e) * r(e)) : (e => a(e) / r(e)); }
+      else if (isAtomStart(t)) { const r = power(); const a = l; l = e => a(e) * r(e); }
+      else break;
+    }
+    return l;
+  }
+  function unary() {
+    if (peek() === '-') { p++; const u = unary(); return e => -u(e); }
+    if (peek() === '+') { p++; return unary(); }
+    return power();
+  }
+  function power() {
+    const b = atom();
+    if (peek() === '^') { p++; const ex = unary(); return e => Math.pow(b(e), ex(e)); }
+    return b;
+  }
+  function atom() {
+    const t = toks[p++];
+    if (t === undefined) throw 0;
+    if (/^[\d.]/.test(t)) { const v = parseFloat(t); return () => v; }
+    if (t === '(') { const v = expr(); if (toks[p++] !== ')') throw 0; return v; }
+    if (t === 'sqrt') { const a = atom(); return e => Math.sqrt(a(e)); }
+    if (t === 'pi') return () => Math.PI;
+    if (/^[a-z]$/.test(t)) return e => (e && t in e ? e[t] : NaN);
+    throw 0;
+  }
+  try { const f = expr(); if (p !== toks.length) return null; return f; } catch (e) { return null; }
+}
+function evalNum(str) { const f = compile(str); if (!f) return NaN; const v = f({}); return typeof v === 'number' ? v : NaN; }
+const nearEq = (a, b) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
+
+function parseList(raw) {
+  let s = String(raw).trim();
+  s = s.replace(/^[A-Za-zА-Яа-я]{1,2}\s*(=|∈)\s*/, '');
+  if (/^[\{\(\[]?\s*[\}\)\]]?$/.test(s) || /∅|fără|нет|no\s*sol|empty/i.test(s)) return [];
+  s = s.replace(/^[\{\[]|[\}\]]$/g, '');
+  const parts = s.indexOf(';') >= 0 ? s.split(';') : (/,\s/.test(s) ? s.split(/,\s+/) : s.split(/\s+(?:și|si|and|и|sau)\s+/i));
+  return parts.map(x => x.trim()).filter(x => x.length);
+}
+
+/* verificare câmp -> {ok, note} */
+function checkField(f, raw) {
+  raw = raw == null ? '' : String(raw);
+  if (!raw.trim()) return { ok: false, empty: true };
+  if (f.type === 'choice') return { ok: raw === f.ans };
+  if (f.type === 'num') {
+    const v = evalNum(raw);
+    if (!nearEq(v, f.ans)) return { ok: false };
+    const m = normExpr(raw).match(/^-?(\d+)\/(\d+)$/);
+    if (m && gcd(+m[1], +m[2]) > 1 && !f.ansInt) return { ok: true, note: 'reduce' };
+    return { ok: true };
+  }
+  if (f.type === 'set') {
+    const got = parseList(raw).map(evalNum);
+    if (got.some(x => !Number.isFinite(x))) return { ok: false };
+    const uniq = a => { const o = []; a.slice().sort((x, y) => x - y).forEach(x => { if (!o.length || !nearEq(o[o.length - 1], x)) o.push(x); }); return o; };
+    const A = uniq(got), B = uniq(f.ans);
+    return { ok: A.length === B.length && A.every((x, i) => nearEq(x, B[i])) };
+  }
+  if (f.type === 'expr') {
+    const ff = compile(raw), gg = compile(f.ans);
+    if (!ff || !gg) return { ok: false };
+    const vars = f.vars || ['x'];
+    const pts = [-3.7, -2.3, -1.1, 0.37, 0.9, 1.7, 2.9, 4.3, 6.1, 7.7];
+    let tested = 0;
+    for (let i = 0; i < pts.length; i++) {
+      const env = {}; vars.forEach((v, k) => env[v] = pts[(i + k * 3) % pts.length]);
+      const a = ff(env), b = gg(env);
+      if (!Number.isFinite(b)) continue;
+      tested++;
+      if (!Number.isFinite(a) || Math.abs(a - b) > 1e-7 * Math.max(1, Math.abs(b))) return { ok: false };
+    }
+    return { ok: tested >= 4 };
+  }
+  return { ok: false };
+}
+/* verificare problemă -> {fields:[...], frac} */
+function checkProblem(p, vals) {
+  const fields = p.fields.map((f, j) => checkField(f, vals[j]));
+  const okN = fields.filter(r => r.ok).length;
+  return { fields, frac: okN / p.fields.length, all: okN === p.fields.length };
+}
+
+/* ---------- SHA-256 (pentru parola profesorului) ---------- */
+function sha256(msg) {
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const b = unescape(encodeURIComponent(msg)); const l = b.length; const nw = (((l + 8) >> 6) + 1) << 4; const w = new Array(nw).fill(0);
+  for (let i = 0; i < l; i++) w[i >> 2] |= b.charCodeAt(i) << (24 - (i % 4) * 8);
+  w[l >> 2] |= 0x80 << (24 - (l % 4) * 8); w[(((l + 8) >> 6) << 4) + 15] = l * 8;
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const rr = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let i = 0; i < w.length; i += 16) {
+    const x = w.slice(i, i + 16); for (let t = 16; t < 64; t++) { const s0 = rr(x[t-15],7)^rr(x[t-15],18)^(x[t-15]>>>3), s1 = rr(x[t-2],17)^rr(x[t-2],19)^(x[t-2]>>>10); x[t] = (x[t-16] + s0 + x[t-7] + s1) | 0; }
+    let [a, bb, c, d, e, f, g, h] = H;
+    for (let t = 0; t < 64; t++) {
+      const S1 = rr(e,6)^rr(e,11)^rr(e,25), ch = (e & f) ^ (~e & g), t1 = (h + S1 + ch + K[t] + x[t]) | 0;
+      const S0 = rr(a,2)^rr(a,13)^rr(a,22), mj = (a & bb) ^ (a & c) ^ (bb & c), t2 = (S0 + mj) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0;
+    }
+    H = [(H[0]+a)|0,(H[1]+bb)|0,(H[2]+c)|0,(H[3]+d)|0,(H[4]+e)|0,(H[5]+f)|0,(H[6]+g)|0,(H[7]+h)|0];
+  }
+  return H.map(v => ('00000000' + (v >>> 0).toString(16)).slice(-8)).join('');
+}
+
+/* ---------- registru de itemi și generare ---------- */
+const ITEMS = {};            // n -> {n, families:[{id,lvl,exam,gen}]}
+const L = (ro, ru, en) => ({ ro, ru, en });
+function registerItem(it) { ITEMS[it.n] = it; }
+
+const ITEM_TITLES = {
+  1: L('Calcule cu numere reale', 'Вычисления с действительными числами', 'Calculations with real numbers'),
+  2: L('Geometrie: unghiuri, cerc, linia mijlocie', 'Геометрия: углы, окружность, средняя линия', 'Geometry: angles, circle, midline'),
+  3: L('Ecuația de gradul II', 'Квадратное уравнение', 'Quadratic equations'),
+  4: L('Rapoarte, proporții, procente', 'Отношения, пропорции, проценты', 'Ratios, proportions, percentages'),
+  5: L('Funcții și grafice', 'Функции и графики', 'Functions and graphs'),
+  6: L('Inecuații', 'Неравенства', 'Inequalities'),
+  7: L('Puteri și radicali', 'Степени и радикалы', 'Powers and radicals'),
+  8: L('Triunghiuri și patrulatere: lungimi și arii', 'Треугольники и четырёхугольники: длины и площади', 'Triangles and quadrilaterals: lengths and areas'),
+  9: L('Probleme rezolvate cu sisteme de ecuații', 'Задачи на системы уравнений', 'Word problems with systems of equations'),
+  10: L('Corpuri geometrice: paralelipiped și cub', 'Геометрические тела: параллелепипед и куб', 'Solids: cuboid and cube'),
+  11: L('Fracții algebrice', 'Алгебраические дроби', 'Algebraic fractions'),
+  12: L('Funcția de gradul II cu parametru', 'Квадратичная функция с параметром', 'Quadratic function with a parameter')
+};
+
+/* alege o familie după nivel: lvl 1..3, 0 = oricare, 'exam' = familii marcate exam */
+function makeProblem(item, r, lvl, usedSigs) {
+  let pool = item.families.filter(f => lvl === 0 ? true : lvl === 'exam' ? f.exam : f.lvl === lvl);
+  if (!pool.length) pool = item.families;
+  for (let tries = 0; tries < 40; tries++) {
+    const fam = r.pick(pool);
+    const p = fam.gen(r);
+    p.fam = fam.id; p.lvl = fam.lvl; p.item = item.n;
+    if (!p.sig) p.sig = fam.id + '|' + JSON.stringify(p.fields.map(f => f.ans));
+    if (!usedSigs || !usedSigs.has(p.sig)) { if (usedSigs) usedSigs.add(p.sig); return p; }
+  }
+  const fam = r.pick(pool); const p = fam.gen(r); p.fam = fam.id; p.lvl = fam.lvl; p.item = item.n; p.sig = p.sig || Math.random().toString(); return p;
+}
+/* set de n exerciții cu dificultate crescătoare (reproductibil după cod) */
+function makeSet(item, code, tag, n, plan) {
+  plan = plan || (n === 10 ? [1, 1, 1, 2, 2, 2, 2, 3, 3, 3] : Array.from({ length: n }, (_, i) => 1 + Math.min(2, Math.floor(i * 3 / n))));
+  const used = new Set(); const out = [];
+  for (let i = 0; i < n; i++) out.push(makeProblem(item, RNG(`${code}|${item.n}|${tag}|${i}`), plan[i % plan.length], used));
+  return out;
+}
+
+'use strict';
+/* ================= Desen geometric SVG (coordonate matematice, y în sus) ================= */
+const D2R = Math.PI / 180;
+const vadd = (a, b) => [a[0] + b[0], a[1] + b[1]];
+const vsub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+const vmul = (a, k) => [a[0] * k, a[1] * k];
+const vlen = a => Math.hypot(a[0], a[1]);
+const vnorm = a => { const l = vlen(a) || 1; return [a[0] / l, a[1] / l]; };
+const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+const polar = (c, r, deg) => [c[0] + r * Math.cos(deg * D2R), c[1] + r * Math.sin(deg * D2R)];
+const angDeg = (v, a, b) => { // măsura unghiului a-v-b în grade
+  const u = vsub(a, v), w = vsub(b, v);
+  return Math.acos(Math.max(-1, Math.min(1, (u[0] * w[0] + u[1] * w[1]) / (vlen(u) * vlen(w))))) / D2R;
+};
+function rotAll(pts, deg, c) { const a = deg * D2R, co = Math.cos(a), si = Math.sin(a); return pts.map(p => { const x = p[0] - c[0], y = p[1] - c[1]; return [c[0] + x * co - y * si, c[1] + x * si + y * co]; }); }
+/* orientare aleatoare a unei figuri: rotație + oglindire (aplicate tuturor punctelor dintr-un obiect) */
+function orient(obj, r, wild) {
+  const keys = Object.keys(obj);
+  const mirror = r.chance(.5);
+  let deg = wild && r.chance(.6) ? r.range(0, 360) : r.range(-14, 14);
+  const out = {};
+  keys.forEach(k => { const p = obj[k]; out[k] = mirror ? [-p[0], p[1]] : p; });
+  const c = [0, 0];
+  keys.forEach(k => { out[k] = rotAll([out[k]], deg, c)[0]; });
+  return out;
+}
+const LETTERS = 'ABCDEFGKLMNPQRSTUVW'.split('');
+function pickLetters(r, k, exclude = []) { return r.shuffle(LETTERS.filter(x => !exclude.includes(x))).slice(0, k); }
+
+class Fig {
+  constructor(W = 250, H = 180, pad = 26) { this.W = W; this.H = H; this.pad = pad; this.ops = []; this.pts = []; this.verts = []; }
+  ext(P, r = 0) { this.pts.push([P[0] - r, P[1] - r], [P[0] + r, P[1] + r]); }
+  seg(P, Q, o = {}) { this.ext(P); this.ext(Q); this.ops.push(T => { const a = T(P), b = T(Q); return `<line class="gl ${o.cls || ''}" ${o.dash ? 'stroke-dasharray="5 4"' : ''} x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"/>`; }); return this; }
+  poly(Ps, o = {}) { Ps.forEach((P, i) => this.seg(P, Ps[(i + 1) % Ps.length], o)); return this; }
+  line(P, Q, o = {}) { // dreaptă infinită prin P,Q, extinsă cu margini
+    const d = vnorm(vsub(Q, P)), ext = o.ext || 1.0; const a = vsub(P, vmul(d, ext)), b = vadd(Q, vmul(d, ext)); return this.seg(a, b, o); }
+  circle(C, r, o = {}) { this.ext(C, r); this.ops.push((T, s) => { const c = T(C); return `<circle class="gl ${o.cls || ''}" cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="${(r * s).toFixed(1)}" fill="none"/>`; }); return this; }
+  dot(P, o = {}) { this.ext(P); this.ops.push(T => { const c = T(P); return `<circle class="gd" cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="${o.r || 2.6}"/>`; }); return this; }
+  /* etichetă de punct: se depărtează de centrul figurii (sau în direcția dir dată) */
+  lab(P, txt, dir, dist = 12) { this.ext(P, 0); this.verts.push(P); this.ops.push((T, s, cen) => { const d = dir ? vnorm(dir) : vnorm(vsub(P, cen)); const c = T(P); const x = c[0] + d[0] * dist, y = c[1] - d[1] * dist; return `<text class="glab" x="${x.toFixed(1)}" y="${(y + 5).toFixed(1)}" text-anchor="middle">${txt}</text>`; }); this.pts.push([P[0], P[1]]); return this; }
+  text(P, txt, o = {}) { this.ops.push(T => { const c = T(P); return `<text class="gtxt ${o.cls || ''}" x="${(c[0] + (o.dx || 0)).toFixed(1)}" y="${(c[1] + (o.dy || 4)).toFixed(1)}" text-anchor="middle">${txt}</text>`; }); return this; }
+  /* arc de unghi la V între semidreptele către P1 și P2, raza în px */
+  arc(V, P1, P2, rpx, label, o = {}) {
+    this.ops.push((T) => {
+      const a1 = Math.atan2(P1[1] - V[1], P1[0] - V[0]), a2 = Math.atan2(P2[1] - V[1], P2[0] - V[0]);
+      let d = a2 - a1; while (d > Math.PI) d -= 2 * Math.PI; while (d <= -Math.PI) d += 2 * Math.PI;
+      const c = T(V); const pt = a => [c[0] + rpx * Math.cos(a), c[1] - rpx * Math.sin(a)];
+      const s = pt(a1), e = pt(a2); const sweep = d > 0 ? 0 : 1;
+      let out = `<path class="ga ${o.cls || ''}" d="M${s[0].toFixed(1)} ${s[1].toFixed(1)} A${rpx} ${rpx} 0 0 ${sweep} ${e[0].toFixed(1)} ${e[1].toFixed(1)}"/>`;
+      if (o.dbl) { const r2 = rpx + 3.5; const pt2 = a => [c[0] + r2 * Math.cos(a), c[1] - r2 * Math.sin(a)]; const s2 = pt2(a1), e2 = pt2(a2); out += `<path class="ga" d="M${s2[0].toFixed(1)} ${s2[1].toFixed(1)} A${r2} ${r2} 0 0 ${sweep} ${e2[0].toFixed(1)} ${e2[1].toFixed(1)}"/>`; }
+      if (label) { const am = a1 + d / 2; const lr = rpx + (o.lr || 13); out += `<text class="gang" x="${(c[0] + lr * Math.cos(am)).toFixed(1)}" y="${(c[1] - lr * Math.sin(am) + 4).toFixed(1)}" text-anchor="middle">${label}</text>`; }
+      return out;
+    }); return this;
+  }
+  right(V, P1, P2, size = 9) {
+    this.ops.push(T => { const c = T(V); const u = vnorm(vsub(P1, V)), w = vnorm(vsub(P2, V)); const a = [c[0] + u[0] * size, c[1] - u[1] * size], b = [c[0] + (u[0] + w[0]) * size, c[1] - (u[1] + w[1]) * size], e = [c[0] + w[0] * size, c[1] - w[1] * size];
+      return `<path class="ga" d="M${a[0].toFixed(1)} ${a[1].toFixed(1)} L${b[0].toFixed(1)} ${b[1].toFixed(1)} L${e[0].toFixed(1)} ${e[1].toFixed(1)}"/>`; }); return this;
+  }
+  tick(P, Q, n = 1) { // segmente congruente
+    this.ops.push(T => { const a = T(P), b = T(Q); const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2; const dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; const ux = dx / l, uy = dy / l, nx = -uy, ny = ux; let out = '';
+      for (let i = 0; i < n; i++) { const off = (i - (n - 1) / 2) * 4; const cx = mx + ux * off, cy = my + uy * off; out += `<line class="ga" x1="${(cx + nx * 4).toFixed(1)}" y1="${(cy + ny * 4).toFixed(1)}" x2="${(cx - nx * 4).toFixed(1)}" y2="${(cy - ny * 4).toFixed(1)}"/>`; } return out; }); return this;
+  }
+  parMark(P, Q, n = 1) { // semn de paralelism (săgeți)
+    this.ops.push(T => { const a = T(P), b = T(Q); const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2; const dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; const ux = dx / l, uy = dy / l, nx = -uy, ny = ux; let out = '';
+      for (let i = 0; i < n; i++) { const off = (i - (n - 1) / 2) * 6; const cx = mx + ux * off, cy = my + uy * off; out += `<path class="ga" d="M${(cx - ux * 4 + nx * 4).toFixed(1)} ${(cy - uy * 4 + ny * 4).toFixed(1)} L${(cx + ux * 2).toFixed(1)} ${(cy + uy * 2).toFixed(1)} L${(cx - ux * 4 - nx * 4).toFixed(1)} ${(cy - uy * 4 - ny * 4).toFixed(1)}"/>`; } return out; }); return this;
+  }
+  svg(extraPad = 0) {
+    const P = this.pts; let minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
+    P.forEach(p => { minx = Math.min(minx, p[0]); maxx = Math.max(maxx, p[0]); miny = Math.min(miny, p[1]); maxy = Math.max(maxy, p[1]); });
+    const w = Math.max(maxx - minx, 1e-6), h = Math.max(maxy - miny, 1e-6);
+    const pad = this.pad + extraPad;
+    const s = Math.min((this.W - 2 * pad) / w, (this.H - 2 * pad) / h);
+    const ox = (this.W - w * s) / 2, oy = (this.H - h * s) / 2;
+    const T = p => [ox + (p[0] - minx) * s, oy + (maxy - p[1]) * s];
+    const cen = this.verts.length ? [this.verts.reduce((a, p) => a + p[0], 0) / this.verts.length, this.verts.reduce((a, p) => a + p[1], 0) / this.verts.length] : [(minx + maxx) / 2, (miny + maxy) / 2];
+    return `<svg class="fig" viewBox="0 0 ${this.W} ${this.H}" xmlns="http://www.w3.org/2000/svg" role="img">${this.ops.map(o => o(T, s, cen)).join('')}</svg>`;
+  }
+}
+
+/* ================= ajutoare comune pentru itemii 3–12 ================= */
+const T3 = (ro, ru, en) => l => ({ ro, ru, en })[l];
+const SUP = { 2: '²', 3: '³', 4: '⁴' };
+const sgn = n => (n < 0 ? MINUS : '');
+const absS = n => String(Math.abs(n));
+/* coeficienți (de la gradul cel mai mare) -> "3x² + 5x − 2" */
+function pol(co, v = 'x') {
+  const deg = co.length - 1; let out = '';
+  co.forEach((c, i) => {
+    if (c === 0) return; const e = deg - i; const a = Math.abs(c);
+    const body = e === 0 ? String(a) : (a === 1 ? '' : String(a)) + v + (e === 1 ? '' : (SUP[e] || '^' + e));
+    out += out === '' ? (c < 0 ? MINUS : '') + body : (c < 0 ? ` ${MINUS} ` : ' + ') + body;
+  });
+  return out || '0';
+}
+const factor = (p, v = 'x') => (p === 0 ? v : `(${v} ${p < 0 ? MINUS : '+'} ${Math.abs(p)})`);
+const parenIf = (s, b) => (b ? `(${s})` : s);
+/* răspuns numeric / mulțime / alegere / expresie */
+const nf = (label, ans, unit, show) => ({ label, type: 'num', ans, unit, show: () => show || String(ans).replace('-', MINUS), src: String(ans) });
+const setf = (label, arr, show) => ({ label, type: 'set', ans: arr, show: () => show || (arr.length ? '{' + arr.map(v => String(Math.round(v * 1e9) / 1e9).replace('-', MINUS)).join('; ') + '}' : '∅') });
+const chf = (label, opts, ans) => ({ label, type: 'choice', opts, ans, show: () => opts.find(o => o.v === ans).h });
+const exf = (label, ans, showHtml, vars) => ({ label, type: 'expr', ans, vars: vars || ['x'], show: () => showHtml });
+const opt = (v, ro, ru, en) => ({ v, h: { ro: ro, ru: ru == null ? ro : ru, en: en == null ? ro : en } });
+const SIGN_OPTS = [opt('<', '<'), opt('=', '='), opt('>', '>')];
+/* fracție exactă n/d -> html */
+function ratH(n, d) { const q = new Q(n, d); return qH(q); }
+const U = { cm: { ro: 'cm', ru: 'см', en: 'cm' }, cm2: { ro: 'cm²', ru: 'см²', en: 'cm²' }, cm3: { ro: 'cm³', ru: 'см³', en: 'cm³' }, lei: { ro: 'lei', ru: 'леев', en: 'lei' }, pct: { ro: '%', ru: '%', en: '%' }, deg: '°', ha: { ro: 'ha', ru: 'га', en: 'ha' } };
+/* număr de soluții raționale: ax²+bx+c=0 */
+const disc = (a, b, c) => b * b - 4 * a * c;
+const isSq = n => n >= 0 && Number.isInteger(Math.sqrt(n));
+
+/* ============ ITEM 6: Inecuații ============ */
+(function () {
+  const lin = (s, b) => pol([s, b]);
+  function side(r, s, kind) {
+    if (kind === 'poly') { const u = r.int(-8, 8), v = r.int(-12, 12); return { t: pol([s, u, v]), co: [s, u, v] }; }
+    if (kind === 'prod') { const a = r.int(-6, 6) || 2, b = r.int(-6, 6) || 3; const f1 = factor(a), f2 = `(${lin(s, b)})`; return { t: `${f1}${f2}`, co: [s, b + s * a, a * b] }; }
+    if (kind === 'sq') { const a = r.int(-6, 6) || 3; return { t: `${factor(a)}²`, co: [1, 2 * a, a * a] }; }
+    const a = r.int(-6, 6) || 3; return { t: `x(${lin(s, a)})`, co: [s, a, 0] };      // xprod
+  }
+  const OPS = [{ s: '<', h: '&lt;', f: d => d < 0 }, { s: '≤', h: '≤', f: d => d <= 0 }, { s: '>', h: '&gt;', f: d => d > 0 }, { s: '≥', h: '≥', f: d => d >= 0 }];
+  const ev = (co, x) => co[0] * x * x + co[1] * x + co[2];
+  function build(r, asks) {
+    for (let t = 0; t < 400; t++) {
+      const s = r.pick([1, 1, 1, 2, 3, 4, 5]); const kinds = s === 1 ? ['poly', 'prod', 'sq', 'xprod'] : ['poly', 'prod', 'xprod'];
+      const L = side(r, s, r.pick(kinds)), R = side(r, s, r.pick(['poly', 'xprod', 'prod'].filter(k => s !== 1 || true)));
+      if (L.t === R.t) continue; const op = r.pick(OPS);
+      const al = L.co[1] - R.co[1], be = L.co[2] - R.co[2]; if (al === 0 || Math.abs(al) > 12 || Math.abs(be) > 60) continue;
+      const sols = []; for (let x = -60; x <= 60; x++) if (op.f(ev(L.co, x) - ev(R.co, x))) sols.push(x);
+      if (!sols.length) continue;
+      const upper = !sols.includes(60) && sols.length && !sols.includes(-60) ? null : null;
+      const hasUp = !sols.includes(60), hasLow = !sols.includes(-60); if (hasUp === hasLow) continue; // exact unul mărginit
+      const nat = sols.filter(x => x >= 0), neg = sols.filter(x => x < 0);
+      const cand = [];
+      if (hasUp) { if (nat.length >= 1 && nat.length <= 8) cand.push('natList', 'countNat', 'sumNat'); cand.push('maxInt'); }
+      else { cand.push('minInt', 'minNat'); if (neg.length >= 1 && neg.length <= 9) cand.push('countNeg'); const sq = nat.find(x => Number.isInteger(Math.sqrt(x))); if (sq !== undefined) cand.push('minSq'); }
+      const ask = r.pick(cand.filter(a => asks.includes(a))); if (!ask) continue;
+      return { s, L, R, op, al, be, sols, nat, neg, ask, hasUp };
+    }
+    throw new Error('item6');
+  }
+  const ASKS = {
+    natList: [T3('Determinați numerele naturale care sunt soluții ale inecuației', 'Найдите натуральные числа, являющиеся решениями неравенства', 'Find the natural numbers that are solutions of the inequality'), 'x ∈'],
+    maxInt: [T3('Determinați cel mai mare număr întreg care verifică inegalitatea', 'Найдите наибольшее целое число, удовлетворяющее неравенству', 'Find the largest integer satisfying the inequality'), ''],
+    minInt: [T3('Determinați cel mai mic număr întreg care verifică inegalitatea', 'Найдите наименьшее целое число, удовлетворяющее неравенству', 'Find the smallest integer satisfying the inequality'), ''],
+    minNat: [T3('Determinați cel mai mic număr natural care este soluție a inecuației', 'Найдите наименьшее натуральное число — решение неравенства', 'Find the smallest natural number that is a solution of the inequality'), ''],
+    countNat: [T3('Determinați numărul de soluții naturale ale inecuației', 'Найдите количество натуральных решений неравенства', 'Find the number of natural solutions of the inequality'), ''],
+    sumNat: [T3('Determinați suma soluțiilor naturale ale inecuației', 'Найдите сумму натуральных решений неравенства', 'Find the sum of the natural solutions of the inequality'), ''],
+    countNeg: [T3('Determinați numărul de soluții întregi negative ale inecuației', 'Найдите количество отрицательных целых решений неравенства', 'Find the number of negative integer solutions of the inequality'), ''],
+    minSq: [T3('Determinați cel mai mic pătrat perfect care verifică inegalitatea', 'Найдите наименьший точный квадрат, удовлетворяющий неравенству', 'Find the smallest perfect square satisfying the inequality'), '']
+  };
+  function answerOf(b) {
+    const { ask, sols, nat, neg } = b;
+    switch (ask) {
+      case 'natList': return { f: setf('x ∈', nat, nat.length ? '{' + nat.join('; ') + '}' : '∅') };
+      case 'maxInt': return { f: nf('', Math.max(...sols)) };
+      case 'minInt': return { f: nf('', Math.min(...sols)) };
+      case 'minNat': return { f: nf('', Math.min(...nat)) };
+      case 'countNat': return { f: nf('', nat.length) };
+      case 'sumNat': return { f: nf('', nat.reduce((a, c) => a + c, 0)) };
+      case 'countNeg': return { f: nf('', neg.length) };
+      case 'minSq': return { f: nf('', Math.min(...nat.filter(x => Number.isInteger(Math.sqrt(x))))) };
+    }
+  }
+  function mk(r, asks, sigTag) {
+    const b = build(r, asks); const { L, R, op, al, be, ask } = b; const A = answerOf(b);
+    const rel = (b.op.h);
+    const bound = -be / al; const flip = al < 0; const rel2 = flip ? { '<': '>', '≤': '≥', '>': '<', '≥': '≤' }[op.s] : op.s; const rel2h = rel2 === '<' ? '&lt;' : rel2 === '>' ? '&gt;' : rel2;
+    const btxt = Number.isInteger(bound) ? fmtInt(bound) : qH(new Q(-be, al));
+    const steps = l => ({
+      ro: `Desfacem parantezele și reducem termenii: ${pol(L.co)} ${rel} ${pol(R.co)}.<br>Termenii cu x² se reduc: ${pol([al, be])} ${rel} 0 ${be === 0 ? '' : '⇒ ' + pol([al, 0]) + ' ' + rel + ' ' + fmtInt(-be)}.<br>${flip ? 'Împărțim la un număr negativ, deci schimbăm sensul: ' : 'Împărțim la ' + al + ': '}x ${rel2h} ${btxt}.`,
+      ru: `Раскрываем скобки и приводим подобные: ${pol(L.co)} ${rel} ${pol(R.co)}.<br>Члены с x² сокращаются: ${pol([al, be])} ${rel} 0 ${be === 0 ? '' : '⇒ ' + pol([al, 0]) + ' ' + rel + ' ' + fmtInt(-be)}.<br>${flip ? 'Делим на отрицательное число, знак неравенства меняется: ' : 'Делим на ' + al + ': '}x ${rel2h} ${btxt}.`,
+      en: `Expand and collect terms: ${pol(L.co)} ${rel} ${pol(R.co)}.<br>The x² terms cancel: ${pol([al, be])} ${rel} 0 ${be === 0 ? '' : '⇒ ' + pol([al, 0]) + ' ' + rel + ' ' + fmtInt(-be)}.<br>${flip ? 'Dividing by a negative number reverses the inequality: ' : 'Divide by ' + al + ': '}x ${rel2h} ${btxt}.`
+    })[l];
+    const fin = l => {
+      const sets = { natList: b.nat.join(', '), maxInt: Math.max(...b.sols), minInt: Math.min(...b.sols), minNat: b.nat.length ? Math.min(...b.nat) : '', countNat: b.nat.length, sumNat: b.nat.reduce((a, c) => a + c, 0), countNeg: b.neg.length, minSq: '' };
+      const val = A.f.show();
+      return ({ ro: `<br>Răspuns: ${val}.${ask === 'natList' || ask === 'countNat' || ask === 'sumNat' ? ` (naturale: ${b.nat.join(', ')})` : ask === 'countNeg' ? ` (negative: ${b.neg.map(fmtInt).join(', ')})` : ''}`, ru: `<br>Ответ: ${val}.${ask === 'natList' || ask === 'countNat' || ask === 'sumNat' ? ` (натуральные: ${b.nat.join(', ')})` : ask === 'countNeg' ? ` (отрицательные: ${b.neg.map(fmtInt).join(', ')})` : ''}`, en: `<br>Answer: ${val}.${ask === 'natList' || ask === 'countNat' || ask === 'sumNat' ? ` (natural: ${b.nat.join(', ')})` : ask === 'countNeg' ? ` (negative: ${b.neg.map(fmtInt).join(', ')})` : ''}` })[l];
+    };
+    return { text: l => `${ASKS[ask][0](l)} <b>${L.t} ${rel} ${R.t}.</b>`, fields: [A.f], sol: l => steps(l) + fin(l),
+      hint: T3('Desfă parantezele, redu termenii cu x² și rezolvă inecuația de gradul I. Atenție la sensul inegalității!', 'Раскрой скобки, сократи члены с x² и реши линейное неравенство. Следи за знаком!', 'Expand, cancel the x² terms and solve the linear inequality. Watch the direction of the sign!'), sig: `i6|${sigTag}|${L.t}|${R.t}|${op.s}|${ask}` };
+  }
+  const fam = [
+    { id: 'i6-a', lvl: 1, exam: true, gen: r => mk(r, ['natList'], 'a') },
+    { id: 'i6-b', lvl: 1, exam: true, gen: r => mk(r, ['maxInt', 'minInt'], 'b') },
+    { id: 'i6-c', lvl: 2, exam: true, gen: r => mk(r, ['minNat', 'maxInt', 'minInt'], 'c') },
+    { id: 'i6-d', lvl: 2, exam: true, gen: r => mk(r, ['countNat', 'countNeg'], 'd') },
+    { id: 'i6-e', lvl: 3, exam: true, gen: r => mk(r, ['sumNat', 'minSq', 'countNeg'], 'e') }
+  ];
+  registerItem({ n: 6, families: fam,
+    theory: {
+      ro: `<h3>Inecuații care se reduc la gradul I</h3><p>Când în ambii membri apare același termen cu x², acesta se reduce. Pași:</p><ul><li>desfaci parantezele: (x + a)² = x² + 2ax + a²; (x + a)(x + b) = x² + (a + b)x + ab;</li><li>muți termenii cu x într-o parte și numerele în cealaltă;</li><li>reduci termenii asemenea și împarți la coeficientul lui x.</li></ul>
+<div class="box"><b>Regulă importantă:</b> când înmulțești sau împarți inegalitatea cu un număr <b>negativ</b>, <b>schimbi sensul</b> semnului (&lt; ↔ &gt;, ≤ ↔ ≥).</div>
+<h3>Soluții întregi și naturale</h3><ul><li>ℕ = {0, 1, 2, 3, …}; ℤ = {…, −2, −1, 0, 1, 2, …}.</li><li>x &lt; 4 → soluții naturale: 0, 1, 2, 3. x ≤ 4 → și 4. Semnele „&lt;” și „&gt;” exclud valoarea de la capăt, „≤” și „≥” o includ.</li><li><b>Pătrate perfecte:</b> 0, 1, 4, 9, 16, 25, …</li></ul>
+<div class="ex">Exemplu: (x + 3)² ≥ x² + 5x + 11 ⇒ x² + 6x + 9 ≥ x² + 5x + 11 ⇒ x ≥ 2. Cel mai mic pătrat perfect soluție: <b>4</b>.</div>`,
+      ru: `<h3>Неравенства, сводящиеся к линейным</h3><p>Если в обеих частях одинаковый член с x², он сокращается. Шаги:</p><ul><li>раскрой скобки: (x + a)² = x² + 2ax + a²; (x + a)(x + b) = x² + (a + b)x + ab;</li><li>члены с x — в одну часть, числа — в другую;</li><li>приведи подобные и раздели на коэффициент при x.</li></ul>
+<div class="box"><b>Важно:</b> при умножении или делении неравенства на <b>отрицательное</b> число знак <b>меняется</b> (&lt; ↔ &gt;, ≤ ↔ ≥).</div>
+<h3>Целые и натуральные решения</h3><ul><li>ℕ = {0, 1, 2, 3, …}; ℤ = {…, −2, −1, 0, 1, 2, …}.</li><li>x &lt; 4 → натуральные решения: 0, 1, 2, 3. x ≤ 4 → и 4.</li><li><b>Точные квадраты:</b> 0, 1, 4, 9, 16, 25, …</li></ul>
+<div class="ex">Пример: (x + 3)² ≥ x² + 5x + 11 ⇒ x² + 6x + 9 ≥ x² + 5x + 11 ⇒ x ≥ 2. Наименьший точный квадрат — решение: <b>4</b>.</div>`,
+      en: `<h3>Inequalities that reduce to linear ones</h3><p>When both sides contain the same x² term, it cancels. Steps:</p><ul><li>expand: (x + a)² = x² + 2ax + a²; (x + a)(x + b) = x² + (a + b)x + ab;</li><li>move x-terms to one side and numbers to the other;</li><li>collect like terms and divide by the coefficient of x.</li></ul>
+<div class="box"><b>Important:</b> when you multiply or divide an inequality by a <b>negative</b> number, <b>reverse</b> the sign (&lt; ↔ &gt;, ≤ ↔ ≥).</div>
+<h3>Integer and natural solutions</h3><ul><li>ℕ = {0, 1, 2, 3, …}; ℤ = {…, −2, −1, 0, 1, 2, …}.</li><li>x &lt; 4 → natural solutions: 0, 1, 2, 3. x ≤ 4 → also 4.</li><li><b>Perfect squares:</b> 0, 1, 4, 9, 16, 25, …</li></ul>
+<div class="ex">Example: (x + 3)² ≥ x² + 5x + 11 ⇒ x² + 6x + 9 ≥ x² + 5x + 11 ⇒ x ≥ 2. The smallest perfect square solution: <b>4</b>.</div>` },
+    example: { make: () => fam[0].gen(RNG('exemplu-i6-1')), rule: {
+      ro: 'Desfă parantezele, x² se reduce, rămâne o inecuație de gradul I. Împărțind la un număr negativ, schimbă sensul semnului. Naturale = 0, 1, 2, …',
+      ru: 'Раскрой скобки, x² сократится, останется линейное неравенство. При делении на отрицательное число знак меняется. Натуральные = 0, 1, 2, …',
+      en: 'Expand; x² cancels and a linear inequality remains. Dividing by a negative number reverses the sign. Naturals = 0, 1, 2, …' } } });
+})();
+
+'use strict';
+/* ================= UI: interfața jocului, testare, examen, PDF ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [].slice.call(r.querySelectorAll(s));
+const TX = {
+  appSub: L('Pregătire pentru examenul de matematică · gimnaziu', 'Подготовка к экзамену по математике · гимназия', 'Maths exam preparation · lower secondary'),
+  itemWord: L('Itemul', 'Задание', 'Item'),
+  examTitle: L('Test complet · simulare de examen', 'Полный тест · пробный экзамен', 'Full test · exam simulation'),
+  home: L('Acasă', 'Главная', 'Home'),
+  practice: L('Exersare', 'Тренировка', 'Practice'),
+  test: L('Test · 10 exerciții', 'Тест · 10 заданий', 'Test · 10 exercises'),
+  pdf: L('Fișe PDF', 'Листы PDF', 'PDF sheets'),
+  practiceD: L('Exerciții una câte una, cu indicii, stele și serii. Rezolvarea apare după fiecare răspuns.', 'Задания по одному, с подсказками, звёздами и сериями. Решение — после каждого ответа.', 'One exercise at a time with hints, stars and streaks. The solution shows after each answer.'),
+  testD: L('10 exerciții doar din acest item. Rezolvările apar după predarea testului.', '10 заданий только по этому пункту. Решения — после сдачи теста.', '10 exercises from this item only. Solutions appear after you submit.'),
+  pdfD: L('Variante tipărite (1–10) cu cod de variantă. În regim de profesor — cu răspunsuri.', 'Печатные варианты (1–10) с кодом. В режиме учителя — с ответами.', 'Printable variants (1–10) with a variant code. Teacher mode adds the answer key.'),
+  level: L('Nivel', 'Уровень', 'Level'),
+  l1: L('Ușor', 'Легко', 'Easy'), l2: L('Mediu', 'Средне', 'Medium'), l3: L('Dificil', 'Сложно', 'Hard'), l0: L('Mixt', 'Смешанный', 'Mixed'),
+  check: L('Verifică', 'Проверить', 'Check'), hint: L('Indiciu', 'Подсказка', 'Hint'), solution: L('Rezolvarea', 'Решение', 'Solution'),
+  next: L('Următorul exercițiu ▶', 'Следующее задание ▶', 'Next exercise ▶'),
+  retry: L('Mai încearcă!', 'Попробуй ещё!', 'Try again!'),
+  correctAns: L('Răspuns corect', 'Правильный ответ', 'Correct answer'),
+  stars: L('Stele', 'Звёзды', 'Stars'), streak: L('Serie', 'Серия', 'Streak'), points: L('Puncte', 'Баллы', 'Points'), done: L('Rezolvate', 'Решено', 'Solved'),
+  fillIn: L('Completează răspunsul.', 'Впиши ответ.', 'Fill in your answer.'),
+  reduceTip: L('Corect! Poți simplifica fracția.', 'Верно! Дробь можно сократить.', 'Correct! You can simplify the fraction.'),
+  submitTest: L('Predă testul', 'Сдать тест', 'Submit test'), newTest: L('Alt test', 'Новый тест', 'New test'),
+  code: L('Cod test', 'Код теста', 'Test code'),
+  codeHelp: L('Notează codul ca să regenerezi același test mai târziu: același cod = aceleași exerciții. Lasă gol pentru un test nou.', 'Запиши код, чтобы позже получить тот же тест: тот же код — те же задания. Оставь пустым для нового теста.', 'Write the code down to get the same test again later: same code = same exercises. Leave empty for a new test.'),
+  codeHelpPdf: L('Același cod + același număr de variante = aceeași fișă. Variantele 1, 2, 3… sunt diferite între ele și au același cod.', 'Тот же код и то же число вариантов — тот же лист. Варианты 1, 2, 3… различаются между собой, код у них общий.', 'Same code + same number of variants = same worksheet. Variants 1, 2, 3… differ from each other and share one code.'),
+  theoryD: L('Regulile de care ai nevoie, pe scurt.', 'Нужные правила — кратко.', 'The rules you need, in short.'),
+  theory: L('Teorie', 'Теория', 'Theory'), print: L('Tipărește', 'Печать', 'Print'),
+  checkByCode: L('Verifică un test după cod', 'Проверить тест по коду', 'Check a test by code'), showKey: L('Arată răspunsurile', 'Показать ответы', 'Show answers'),
+  inst: L('Instituția', 'Учебное заведение', 'Institution'), printTest: L('Tipărește testul (PDF)', 'Печать теста (PDF)', 'Print the test (PDF)'),
+  maxPts: L('Punctaj maxim', 'Максимум баллов', 'Maximum score'), gotPts: L('Punctaj obținut', 'Набрано баллов', 'Score obtained'),
+  toHome: L('Pagina principală', 'Главная страница', 'Main page'),
+  example: L('Exemplu', 'Пример', 'Example'), exampleD: L('Un exercițiu rezolvat pas cu pas.', 'Одно задание с пошаговым решением.', 'One exercise solved step by step.'),
+  exTask: L('Enunț', 'Условие', 'Task'), exRule: L('Reține', 'Запомни', 'Remember'), exSteps: L('Rezolvare pas cu pas', 'Решение по шагам', 'Step-by-step solution'), exTry: L('Încearcă singur', 'Попробуй сам', 'Try it yourself'),
+  load: L('Încarcă', 'Загрузить', 'Load'),
+  startTest: L('Începe testul', 'Начать тест', 'Start the test'),
+  testIntro: L('Vei primi 10 exerciții din acest item, de la ușor la dificil. Fiecare exercițiu valorează 1 punct. Rezolvările le vezi la final.', 'Вы получите 10 заданий по этому пункту — от лёгких к сложным. Каждое стоит 1 балл. Решения — в конце.', 'You will get 10 exercises from this item, from easy to hard. Each is worth 1 point. Solutions are shown at the end.'),
+  score: L('Scor', 'Результат', 'Score'), mistakes: L('Verifică greșelile', 'Разбор ошибок', 'Review'),
+  teacher: L('Profesor', 'Учитель', 'Teacher'), teacherOn: L('Mod profesor', 'Режим учителя', 'Teacher mode'),
+  teacherBar: L('👩‍🏫 Mod profesor activ: răspunsurile sunt vizibile, iar fișele PDF pot include cheia de răspunsuri.', '👩‍🏫 Режим учителя: ответы видны, а в PDF можно включить ключ.', '👩‍🏫 Teacher mode on: answers are visible and PDFs can include the answer key.'),
+  password: L('Parola profesorului', 'Пароль учителя', 'Teacher password'), enter: L('Intră', 'Войти', 'Enter'), cancel: L('Anulează', 'Отмена', 'Cancel'),
+  wrongPass: L('Parolă greșită', 'Неверный пароль', 'Wrong password'), leave: L('Ieși din modul profesor', 'Выйти из режима учителя', 'Leave teacher mode'),
+  tAnswer: L('Răspuns (profesor)', 'Ответ (учитель)', 'Answer (teacher)'),
+  print: L('🖨️ Tipărește / Salvează PDF', '🖨️ Печать / Сохранить PDF', '🖨️ Print / Save PDF'), close: L('Închide', 'Закрыть', 'Close'),
+  newTab: L('Deschide în filă nouă', 'Открыть в новой вкладке', 'Open in a new tab'),
+  variants: L('Număr de variante', 'Количество вариантов', 'Number of variants'),
+  withKey: L('Include răspunsurile (doar profesor)', 'Включить ответы (только учитель)', 'Include answer key (teacher only)'),
+  keyLocked: L('Răspunsurile se pot include numai în modul profesor.', 'Ответы можно включить только в режиме учителя.', 'The answer key is available in teacher mode only.'),
+  preview: L('Previzualizare fișă', 'Предпросмотр листа', 'Preview sheet'),
+  pdfHelp: L('Fiecare variantă are 10 exerciții și apoi exerciții suplimentare, până se umple pagina. Pentru PDF: apasă „Tipărește” și alege „Salvează ca PDF”.', 'В каждом варианте 10 заданий и дополнительные упражнения до заполнения страницы. Для PDF нажмите «Печать» и выберите «Сохранить как PDF».', 'Each variant has 10 exercises plus extras until the page is full. For a PDF press “Print” and choose “Save as PDF”.'),
+  pdfThis: L('🖨️ PDF cu acest test', '🖨️ PDF этого теста', '🖨️ PDF of this test'),
+  sheetTitle: L('Fișă de exersare', 'Лист для тренировки', 'Practice sheet'),
+  variant: L('Varianta', 'Вариант', 'Variant'), extra: L('Exerciții suplimentare', 'Дополнительные упражнения', 'Extra exercises'),
+  answers: L('Răspunsuri', 'Ответы', 'Answers'), name: L('Nume, prenume', 'Фамилия, имя', 'Name'), cls: L('Clasa', 'Класс', 'Class'), date: L('Data', 'Дата', 'Date'),
+  page: L('pag.', 'стр.', 'p.'),
+  startExam: L('Începe lucrarea', 'Начать работу', 'Start the exam'), submitExam: L('Predă lucrarea', 'Сдать работу', 'Submit the exam'),
+  timeLeft: L('Timp rămas', 'Осталось', 'Time left'), answered: L('completate', 'заполнено', 'answered'),
+  examIntro: L('Simulare de examen: câte un exercițiu din fiecare item, în ordinea examenului. Ai la dispoziție 2 ore. Rezolvările apar după ce predai lucrarea.', 'Пробный экзамен: по одному заданию из каждого пункта в порядке экзамена. Время — 2 часа. Решения — после сдачи работы.', 'Exam simulation: one exercise from every item, in exam order. You have 2 hours. Solutions appear after you submit.'),
+  proto: L('Versiune de probă: în acest prototip sunt activi doar itemii', 'Пробная версия: в прототипе активны только пункты', 'Prototype: only the following items are active'),
+  total: L('Total', 'Итого', 'Total'), pts: L('puncte', 'баллов', 'points'), ptsS: L('p.', 'б.', 'pt'), pastTitle: L('Din examenele și exersările anterioare', 'Из прошлых экзаменов и тренировок', 'From past exams and practice tests'), pastIntro: L('Sarcini reale din testele de exersare, pretestări, sesiunile de bază și examenele repetate (2015–2025). Textele sunt în limba română.', 'Реальные задания из тренировочных тестов, претестирований, основных сессий и повторных экзаменов (2015–2025). Тексты на румынском языке.', 'Real tasks from practice tests, pre-tests, main sessions and repeat exams (2015–2025). Task texts are in Romanian.'), pItem: L('Itemul', 'Задание', 'Item'), pType: L('Tipul testului', 'Тип теста', 'Test type'), pYear: L('Anul', 'Год', 'Year'), pAll: L('toate', 'все', 'all'), pNew: L('Altă sarcină', 'Другое задание', 'Another task'), pShow: L('Arată răspunsul', 'Показать ответ', 'Show answer'), pHide: L('Ascunde răspunsul', 'Скрыть ответ', 'Hide answer'), pTest: L('Test din examene', 'Тест из экзаменов', 'Exam test'), pTestD: L('Un test real complet (12 sarcini). Scrie răspunsurile și predă lucrarea; apoi compari cu cheia oficială.', 'Один реальный полный тест (12 заданий). Запишите ответы и сдайте работу; затем сравните с официальным ключом.', 'One real full test (12 tasks). Type your answers and submit; then compare with the official key.'), pAnsPh: L('Răspuns', 'Ответ', 'Answer'), pSubmit: L('Predă lucrarea', 'Сдать работу', 'Submit'), pNewTest: L('Alt test', 'Другой тест', 'Another test'), pFound: L('Răspunsuri găsite în cheie', 'Ответов найдено в ключе', 'Answers found in the key'), pFoundNote: L('Verificare orientativă: răspunsul tău este căutat printre răspunsurile oficiale ale testului. Compară cu cheia de mai jos.', 'Ориентировочная проверка: ваш ответ ищется среди официальных ответов теста. Сравните с ключом ниже.', 'Indicative check: your answer is looked up among the official answers of the test. Compare with the key below.'), pOfficial: L('Cheia oficială a testului (ordinea testului original)', 'Официальный ключ теста (порядок исходного теста)', 'Official key of the test (original test order)'), pPdf: L('Fișă PDF', 'PDF-лист', 'PDF sheet'), pCount: L('Variante', 'Вариантов', 'Variants'), pPdfThis: L('PDF cu acest test', 'PDF этого теста', 'PDF of this test'), pKey: L('Răspunsurile testului', 'Ответы теста', 'Answers of the test'), pKeyNote: L('Răspunsurile sunt în ordinea numerotării testului original din document; potriviți-le după conținut.', 'Ответы даны в порядке нумерации исходного теста из документа; сопоставляйте по содержанию.', 'Answers follow the numbering of the original test in the source document; match them by content.'), pNoAns: L('Răspuns indisponibil în sursă.', 'Ответ в источнике отсутствует.', 'No answer in the source.'), pVar: L('Variantă de 12 sarcini', 'Вариант из 12 заданий', 'Variant of 12 tasks'), pVarD: L('Câte o sarcină din fiecare item, alese la întâmplare.', 'По одному заданию из каждого пункта, случайно.', 'One task from each item, chosen at random.'), pShowAll: L('Arată toate răspunsurile', 'Показать все ответы', 'Show all answers'), pPrint: L('Printează', 'Печать', 'Print'), pSingle: L('O sarcină', 'Одно задание', 'Single task'), pNone: L('Nu există sarcini pentru filtrele alese.', 'Нет заданий для выбранных фильтров.', 'No tasks for these filters.'), exWord: L('exercițiu', 'упражнение', 'exercise'), grade: L('Nota', 'Оценка', 'Grade'),
+  gradePending: L('Scara oficială de notare va fi adăugată.', 'Официальная шкала оценок будет добавлена.', 'The official grading scale will be added.'),
+  min: L('min', 'мин', 'min'),
+  hello: L('Salut! Hai să rezolvăm împreună!', 'Привет! Решаем вместе!', 'Hi! Let’s solve together!'),
+  lic: L('Licență', 'Лицензия', 'License'),
+  timeUp: L('Timpul a expirat! Lucrarea a fost predată.', 'Время вышло! Работа сдана.', 'Time is up! The exam was submitted.'),
+  empty: L('Scrie mai întâi un răspuns.', 'Сначала впиши ответ.', 'Write an answer first.'),
+  lvUp: L('Super serie! Încearcă nivelul următor.', 'Отличная серия! Попробуй следующий уровень.', 'Great streak! Try the next level.')
+};
+const MSG = {
+  ok: [L('Bravo! 🎉', 'Браво! 🎉', 'Well done! 🎉'), L('Exact! Ești pe drumul cel bun!', 'Точно! Ты на верном пути!', 'Exactly! You are on the right track!'), L('Excelent! Continuă așa!', 'Отлично! Так держать!', 'Excellent! Keep going!'), L('Perfect! Ești un as la matematică!', 'Идеально! Ты ас математики!', 'Perfect! You are a maths ace!')],
+  bad: [L('Aproape! Mai încearcă o dată.', 'Почти! Попробуй ещё раз.', 'Almost! Try once more.'), L('Nu-i nimic, greșind învățăm. Verifică calculele!', 'Не страшно, на ошибках учимся. Проверь вычисления!', 'No worries, mistakes help us learn. Check your work!')],
+  reveal: [L('Uite rezolvarea, data viitoare îți iese!', 'Вот решение, в следующий раз получится!', 'Here is the solution, you will get it next time!')],
+  streak: [L('🔥 Serie de foc! Nu te opri!', '🔥 Огненная серия! Не останавливайся!', '🔥 You are on fire! Don’t stop!')],
+  hello: [TX.hello],
+  hint: [L('Un mic ajutor… gândește-te bine!', 'Небольшая помощь… подумай хорошенько!', 'A little help… think carefully!')]
+};
+const OWL = `<svg class="owl" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="50" cy="66" rx="34" ry="38" fill="#8d6e63"/><ellipse cx="50" cy="74" rx="22" ry="26" fill="#efe3d3"/><path d="M18 40 L26 14 L40 32Z M82 40 L74 14 L60 32Z" fill="#6d4c41"/><circle cx="36" cy="48" r="14" fill="#fff"/><circle cx="64" cy="48" r="14" fill="#fff"/><circle cx="37" cy="49" r="7" fill="#263238"/><circle cx="63" cy="49" r="7" fill="#263238"/><circle cx="39" cy="46" r="2.3" fill="#fff"/><circle cx="65" cy="46" r="2.3" fill="#fff"/><path d="M44 58 L56 58 L50 70Z" fill="#ffb300"/><path d="M12 62 Q8 84 26 90 Q22 74 24 62Z" fill="#6d4c41"/><path d="M88 62 Q92 84 74 90 Q78 74 76 62Z" fill="#6d4c41"/><path d="M36 100 l-4 8 M44 102 l-2 8 M56 102 l2 8 M64 100 l4 8" stroke="#ffb300" stroke-width="3.5" stroke-linecap="round"/><path d="M20 28 L50 14 L80 28 L50 40Z" fill="#263238"/><path d="M70 32 L70 46" stroke="#ffd54a" stroke-width="2.5"/><circle cx="70" cy="48" r="3" fill="#ffd54a"/></svg>`;
+const SALT = 'mpf|';
+const EXAM_CFG = window.__EXAM_CFG || { minutes: 120, points: null, conv: null };
+
+/* ================= stare ================= */
+const S = { lang: 'ro', teacher: false, view: 'home', pr: null, test: null, exam: null, say: null, mood: '', lastInput: null, badges: [] };
+const PAGE = window.__PAGE || { kind: 'item', n: 1 };
+try { const l = localStorage.getItem('mpf-lang'); if (LANGS.includes(l)) S.lang = l; } catch (e) {}
+try { const v = new URLSearchParams(location.search).get('view'); if (['theory', 'example'].includes(v) && PAGE.kind === 'item') S.view = v; } catch (e) {}
+try { const q = new URLSearchParams(location.search).get('lang'); if (LANGS.includes(q)) S.lang = q; } catch (e) {}
+try { if (sessionStorage.getItem('mpf-teacher') === '1') S.teacher = true; } catch (e) {}
+const tx = k => TX[k][S.lang];
+const lbl = o => (o && typeof o === 'object' ? o[S.lang] : o);
+const unitOf = u => (u ? (typeof u === 'object' ? u[S.lang] : u) : '');
+const showOf = f => (typeof f.show === 'function' ? f.show(S.lang) : f.show);
+const ITEM = () => ITEMS[PAGE.n];
+const ansHTML = p => p.fields.map(f => `${lbl(f.label)} <b>${showOf(f)}</b> ${unitOf(f.unit)}`).join(' &nbsp;;&nbsp; ');
+const say = (arr, mood) => { S.say = arr[Math.floor(Math.random() * arr.length)]; S.mood = mood || ''; };
+
+/* ================= scheletul paginii ================= */
+function shell(inner) {
+  const title = PAGE.kind === 'past' ? tx('pastTitle') : PAGE.kind === 'exam' ? tx('examTitle') : `${tx('itemWord')} ${PAGE.n} · ${ITEM_TITLES[PAGE.n][S.lang]}`;
+  return `<div class="board"><header class="top"><div class="brand">
+  <!-- ← LINK: pagina principală (index). Înlocuiește HOME_URL cu adresa paginii de start din Google Sites. -->
+  <a class="logo" href="${window.HOME_URL || '#'}" target="_top" title="${tx('toHome')}">∑</a><div><b>${title}</b><small>${tx('appSub')}</small></div></div>
+  <div class="tools"><span class="seg">${LANGS.map(l => `<button class="chip ${l === S.lang ? 'on' : ''}" data-act="lang" data-v="${l}">${l.toUpperCase()}</button>`).join('')}</span>
+  <button class="chip teach ${S.teacher ? 'on' : ''}" data-act="teacher">👩‍🏫 ${S.teacher ? tx('teacherOn') : tx('teacher')}</button></div></header>
+  <main class="paper">${S.teacher ? `<div class="teachbar">${tx('teacherBar')} <button class="btn alt" style="padding:2px 10px;font-size:.8rem" data-act="teacher-off">${tx('leave')}</button></div>` : ''}${inner}</main>
+  <footer class="lic">© 2026 Godovaniuc Ana · ${tx('lic')} <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></footer></div>`;
+}
+function tabsHTML() {
+  if (PAGE.kind === 'exam' || PAGE.kind === 'past') return `<div class="tabs past-noprint"><!-- ← LINK: Acasă → pagina de start (HOME_URL din build.py) --><a class="tab" href="${window.HOME_URL || 'index.html'}" target="_top">🏠 ${tx('home')}</a></div>`;
+  return `<div class="tabs">${`<!-- ← LINK: butonul Acasă duce la pagina de start (HOME_URL din build.py) -->
+  <a class="tab" href="${window.HOME_URL || 'index.html'}" target="_top">🏠 ${tx('home')}</a>` + [...(ITEMS[PAGE.n] && ITEMS[PAGE.n].theory ? [['theory', '📚', 'theory']] : []), ...(ITEMS[PAGE.n] && ITEMS[PAGE.n].example ? [['example', '📖', 'example']] : []), ['practice', '🎮', 'practice'], ['test', '📝', 'test'], ['pdf', '🖨️', 'pdf']].map(([v, ic, k]) => `<button class="tab ${S.view === v ? 'on' : ''}" data-act="go" data-v="${v}">${ic} ${tx(k)}</button>`).join('')}</div>`;
+}
+function mascotHTML() { return ''; /* asistent eliminat */ return `<div class="mascot"><div class="bubble">${S.say ? S.say[S.lang] : tx('hello')}</div>${OWL.replace('class="owl"', `class="owl ${S.mood}"`)}</div>`; }
+const KEYS = ['−', '/', ',', '(', ')', '√', '²', '^', ';', 'π', 'x', '⌫'];
+const keypadHTML = () => `<div class="keypad">${KEYS.map(k => `<button type="button" data-act="key" data-k="${k}">${k}</button>`).join('')}</div>`;
+
+/* ================= card de exercițiu ================= */
+function fieldHTML(p, i, j, o) {
+  const f = p.fields[j]; const v = (o.vals[i] || [])[j] || ''; const res = o.res && o.res[i] && o.res[i].fields[j];
+  const cls = res ? (res.ok ? 'ok' : 'bad') : '';
+  const mark = res ? `<span class="mark ${res.ok ? 'ok' : 'bad'}">${res.ok ? '✓' : '✗'}</span>` : '';
+  const label = lbl(f.label);
+  if (f.type === 'choice') {
+    return `<span class="fld"><span class="flab">${label}</span><span class="opts">${f.opts.map(op => `<button type="button" class="opt ${v === op.v ? 'on' : ''} ${res && v === op.v ? (res.ok ? 'ok' : 'bad') : ''}" data-act="opt" data-p="${i}" data-f="${j}" data-v="${op.v}" ${o.locked ? 'disabled' : ''}>${op.h[S.lang]}</button>`).join('')}</span>${mark}</span>`;
+  }
+  return `<label class="fld"><span class="flab">${label}</span><input class="ans ${cls}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-p="${i}" data-f="${j}" value="${String(v).replace(/"/g, '&quot;')}" ${o.locked ? 'readonly' : ''} placeholder="?"><span class="unit">${unitOf(f.unit)}</span>${mark}</label>`;
+}
+function probHTML(p, i, o) {
+  const res = o.res && o.res[i];
+  const cls = res && o.locked ? (res.all ? 'okp' : 'badp') : '';
+  let extra = '';
+  if (o.reveal) extra += `<div class="fb ${res && res.all ? 'good' : ''}">${res && res.all ? '' : `${tx('correctAns')}: `}${res && res.all ? '' : ansHTML(p)}</div>`;
+  if (o.showSol) extra += `<div class="sol"><b>${tx('solution')}:</b><br>${p.sol(S.lang)}</div>`;
+  if (o.hint) extra += `<div class="hintbox">💡 ${p.hint ? p.hint(S.lang) : ''}</div>`;
+  if (S.teacher && !o.reveal) extra += `<div class="key"><b>${tx('tAnswer')}:</b> ${ansHTML(p)}</div>`;
+  return `<div class="prob ${cls}"><div class="pnum">${o.num != null ? o.num : i + 1}</div><div class="pbody"><div class="ptext">${p.text(S.lang)}</div>${p.fig ? `<div class="pfig">${p.fig}</div>` : ''}<div class="pfields">${p.fields.map((f, j) => fieldHTML(p, i, j, o)).join('')}</div>${o.note || ''}${extra}</div></div>`;
+}
+
+/* ================= vederi ================= */
+function homeView() {
+  if (PAGE.kind === 'exam') return examView();
+  return `${tabsHTML()}<h1 class="t">${tx('itemWord')} ${PAGE.n}: ${ITEM_TITLES[PAGE.n][S.lang]}</h1><p class="sub">${tx('appSub')}</p>
+  <div class="stage"><div><div class="cards">
+  ${ITEMS[PAGE.n] && ITEMS[PAGE.n].theory ? `<button class="gcard" data-act="go" data-v="theory"><div class="ico">📚</div><b>${tx('theory')}</b><span>${tx('theoryD')}</span></button>` : ''}
+  ${ITEMS[PAGE.n] && ITEMS[PAGE.n].example ? `<button class="gcard" data-act="go" data-v="example"><div class="ico">📖</div><b>${tx('example')}</b><span>${tx('exampleD')}</span></button>` : ''}
+  <button class="gcard" data-act="go" data-v="practice"><div class="ico">🎮</div><b>${tx('practice')}</b><span>${tx('practiceD')}</span></button>
+  <button class="gcard" data-act="go" data-v="test"><div class="ico">📝</div><b>${tx('test')}</b><span>${tx('testD')}</span></button>
+  <button class="gcard" data-act="go" data-v="pdf"><div class="ico">🖨️</div><b>${tx('pdf')}</b><span>${tx('pdfD')}</span></button></div></div>${mascotHTML()}</div>`;
+}
+function theoryView() {
+  return `${tabsHTML()}<div class="theory"><h2 class="t">${tx('theory')} · ${ITEM_TITLES[PAGE.n][S.lang]}</h2>${ITEMS[PAGE.n].theory[S.lang]}
+  <div class="row"><button class="btn" data-act="go" data-v="example">📖 ${tx('example')}</button><button class="btn alt" data-act="go" data-v="practice">🎮 ${tx('practice')}</button></div></div>`;
+}
+function exampleView() {
+  const ex = ITEMS[PAGE.n].example; const p = ex.make();
+  return `${tabsHTML()}<h2 class="t">${tx('example')}</h2>
+  <div class="exbox"><div class="exh">${tx('exTask')}</div><div class="extext">${p.text(S.lang)}</div>${p.fig ? `<div class="pfig">${p.fig}</div>` : ''}
+  <div class="exh">${tx('exSteps')}</div><div class="sol exsol">${p.sol(S.lang)}</div>
+  <div class="exh">${tx('exRule')}</div><div class="exrule">${ex.rule[S.lang]}</div>
+  <div class="row"><button class="btn" data-act="go" data-v="practice">🎮 ${tx('exTry')}</button></div></div>`;
+}
+function newPractice(lvl) {
+  const prev = S.pr || {};
+  S.pr = { lvl: lvl != null ? lvl : (prev.lvl != null ? prev.lvl : 1), base: randCode(), n: 0, pts: prev.pts || 0, stars: prev.stars || 0, streak: 0, best: prev.best || 0, solved: prev.solved || 0, tries: 0, hint: false, showSol: false, p: null, vals: [[]], res: null, final: false, used: new Set() };
+  nextProblem();
+}
+function nextProblem() {
+  const pr = S.pr; pr.n++; pr.tries = 0; pr.hint = false; pr.showSol = false; pr.vals = [[]]; pr.res = null; pr.final = false;
+  pr.p = makeProblem(ITEM(), RNG(`${pr.base}|${pr.n}`), pr.lvl, pr.used);
+}
+function practiceView() {
+  if (!S.pr) { newPractice(0); say(MSG.hello); }
+  const pr = S.pr; const locked = pr.final;
+  const card = probHTML(pr.p, 0, { vals: pr.vals, res: pr.res, locked, reveal: pr.final && pr.res && !pr.res[0].all, showSol: pr.showSol || (pr.final && !(pr.res && pr.res[0].all)), hint: pr.hint, num: pr.n,
+    note: pr.res && pr.res[0].fields.some(f => f.note === 'reduce') && pr.res[0].all ? `<div class="fb good">${tx('reduceTip')}</div>` : (pr.res && !pr.res[0].all && !pr.final ? `<div class="fb">✗ ${tx('retry')}</div>` : '') });
+  return `${tabsHTML()}<div class="stats"><span class="stat">⭐ ${tx('stars')}: ${pr.stars}</span><span class="stat">🔥 ${tx('streak')}: ${pr.streak}</span><span class="stat">🏅 ${tx('points')}: ${pr.pts}</span><span class="stat">✅ ${tx('done')}: ${pr.solved}</span></div>
+  <div class="stage" style="margin-top:10px"><div>${card}
+  <div class="controls">${locked ? '' : `<button class="btn" data-act="check">${tx('check')}</button><button class="btn alt" data-act="hint">💡 ${tx('hint')}</button>`}
+  ${pr.final || pr.res ? '' : ''}${pr.final && pr.res && pr.res[0].all ? `<button class="btn alt" data-act="sol">📖 ${tx('solution')}</button>` : ''}
+  ${locked ? `<button class="btn" data-act="next">${tx('next')}</button>` : ''}</div>${keypadHTML()}</div>${mascotHTML()}</div>`;
+}
+function prCheck() {
+  const pr = S.pr; if (pr.final) return;
+  const vals = pr.vals[0] || [];
+  if (pr.p.fields.every((f, j) => !String(vals[j] || '').trim())) { toast(tx('empty')); return; }
+  const res = checkProblem(pr.p, vals); pr.res = [res]; pr.tries++;
+  if (res.all) {
+    pr.final = true; pr.solved++; pr.streak++; pr.best = Math.max(pr.best, pr.streak);
+    const first = pr.tries === 1 && !pr.hint; pr.pts += first ? 10 : pr.tries === 1 ? 7 : 5; if (pr.tries === 1) pr.stars++;
+    say(pr.streak >= 3 && pr.streak % 3 === 0 ? MSG.streak : MSG.ok, 'bounce'); confetti();
+    if (pr.streak === 5 && pr.lvl > 0 && pr.lvl < 3) toast(tx('lvUp'));
+  } else {
+    pr.streak = 0;
+    if (pr.tries >= 2) { pr.final = true; say(MSG.reveal, 'shake'); } else say(MSG.bad, 'shake');
+  }
+  render();
+}
+/* ---- test de 10 exerciții ---- */
+function newTest(code) {
+  code = (code || randCode()).toUpperCase();
+  S.test = { code, probs: makeSet(ITEM(), code, 't', 10), vals: [], res: null, done: false, score: 0 };
+}
+function checkHTML() {
+  const c = S.check; if (!c) return '';
+  const rows = c.probs.map((p, i) => `<div class="prob"><div class="pnum">${c.nums ? c.nums[i] : i + 1}</div><div class="pbody"><div class="ptext">${p.text(S.lang)}</div>${p.fig ? `<div class="pfig">${p.fig}</div>` : ''}<div class="key"><b>${tx('tAnswer')}:</b> ${ansHTML(p)}</div><div class="sol"><b>${tx('solution')}:</b><br>${p.sol(S.lang)}</div></div></div>`).join('');
+  return `<h3 class="itemhead">${tx('code')}: ${c.code}</h3>${rows}`;
+}
+function teacherCheckBox(act) {
+  if (!S.teacher) return '';
+  return `<div class="teachbox"><b>👩‍🏫 ${tx('checkByCode')}</b><div class="row"><input id="chkcode" type="text" maxlength="14" placeholder="${tx('code')}" value="${S.check ? S.check.code : ''}" style="text-transform:uppercase"><button class="btn" data-act="${act}">${tx('showKey')}</button>${S.check ? `<button class="btn alt" data-act="chkclear">✕</button>` : ''}</div></div>${checkHTML()}`;
+}
+function testView() {
+  const t = S.test;
+  if (!t) return `${tabsHTML()}<h2 class="t">${tx('test')}</h2><p class="sub">${tx('testIntro')}</p>
+  <div class="row"><button class="btn" data-act="tstart">${tx('startTest')}</button><button class="btn alt" data-act="tpdfnew">🖨️ ${tx('printTest')}</button></div>
+  <div class="row"><label>${tx('code')}: <input class="codein" id="codein" type="text" maxlength="14" style="padding:6px 8px;border:2px solid #9db3c9;border-radius:8px;text-transform:uppercase"></label><button class="btn alt" data-act="tload">${tx('load')}</button></div><p class="sub codehelp">${tx('codeHelp')}</p>${teacherCheckBox('tcheck')}`;
+  const body = t.probs.map((p, i) => probHTML(p, i, { vals: t.vals, res: t.res, locked: t.done, reveal: t.done, showSol: t.done })).join('');
+  let head = `<div class="row"><span class="stat">${tx('code')}: <b>${t.code}</b></span><span class="stat">${itemPts(PAGE.n)} ${tx('ptsS')} / ${tx('exWord')} · ${10 * itemPts(PAGE.n)} ${tx('pts')}</span><button class="btn alt" data-act="tpdf">🖨️ ${tx('printTest')}</button></div>`;
+  if (t.done) {
+    const ip = itemPts(PAGE.n), sc = Math.round(t.score * 10) / 10, scp = Math.round(t.score * ip * 100) / 100;
+    head += `<div class="result"><div>${tx('score')}</div><div class="big">${scp} / ${10 * ip} ${tx('pts')}</div><div>${sc >= 9 ? '🏆' : sc >= 7 ? '🥇' : sc >= 5 ? '🥈' : '🌱'}</div><div class="row" style="justify-content:center"><button class="btn" data-act="tnew">${tx('newTest')}</button><button class="btn alt" data-act="tpdf">${tx('pdfThis')}</button></div></div><h2 class="t">${tx('mistakes')}</h2>`;
+  }
+  return `${tabsHTML()}${head}<div class="stage"><div>${body}${t.done ? '' : `<div class="controls"><button class="btn" data-act="tsubmit">${tx('submitTest')}</button></div>${keypadHTML()}`}</div>${mascotHTML()}</div>`;
+}
+function gradeSet(probs, vals) {
+  let sum = 0; const res = probs.map((p, i) => { const r = checkProblem(p, vals[i] || []); sum += r.frac; return r; }); return { res, sum };
+}
+function tSubmit() {
+  const t = S.test; const g = gradeSet(t.probs, t.vals); t.res = g.res; t.score = g.sum; t.done = true;
+  say(g.sum >= 9 ? MSG.ok : g.sum >= 5 ? MSG.ok : MSG.bad, g.sum >= 5 ? 'bounce' : 'shake'); if (g.sum >= 7) confetti(); render(); window.scrollTo && $('.paper') && $('.paper').scrollIntoView({ behavior: 'smooth' });
+}
+/* ---- examen complet ---- */
+function examItems() { return Object.keys(ITEMS).map(Number).sort((a, b) => a - b); }
+function newExam(code) {
+  code = (code || randCode()).toUpperCase();
+  const its = examItems();
+  S.exam = { code, probs: its.map(n => makeProblem(ITEMS[n], RNG(`${code}|exam|${n}`), 'exam')), items: its, vals: [], res: null, done: false, endAt: Date.now() + EXAM_CFG.minutes * 60000, score: 0, running: true };
+}
+const itemPts = n => (EXAM_CFG.points && EXAM_CFG.points[n]) || 1;
+function examView() {
+  const e = S.exam;
+  if (!e) {
+    const its = examItems();
+    return `${tabsHTML()}<h1 class="t">${tx('examTitle')}</h1><p class="sub">${tx('examIntro')}</p>
+    <div class="stage"><div><div class="stat">⏱ ${EXAM_CFG.minutes} ${tx('min')}</div> <div class="stat">📋 ${its.length} ${tx('itemWord')}</div>
+    ${its.length < 12 ? `<p class="fb" style="color:#8a5a00">${tx('proto')}: ${its.join(', ')}.</p>` : ''}
+    <div class="row"><button class="btn" data-act="estart">${tx('startExam')}</button><button class="btn alt" data-act="epdfnew">🖨️ ${tx('printTest')}</button></div>
+    <div class="row"><label>${tx('code')}: <input id="codein" type="text" maxlength="14" style="padding:6px 8px;border:2px solid #9db3c9;border-radius:8px;text-transform:uppercase"></label><button class="btn alt" data-act="eload">${tx('load')}</button></div><p class="sub codehelp">${tx('codeHelp')}</p>${teacherCheckBox('echeck')}</div></div>`;
+  }
+  const body = e.probs.map((p, i) => `<div class="itemhead">${tx('itemWord')} ${e.items[i]} · ${ITEM_TITLES[e.items[i]][S.lang]} <small>(${itemPts(e.items[i])} ${tx('ptsS')})</small></div>` +
+    probHTML(p, i, { vals: e.vals, res: e.res, locked: e.done, reveal: e.done, showSol: e.done, num: e.items[i] })).join('');
+  let head = '';
+  if (!e.done) head = `<div class="timer ${remaining() < 600000 ? 'low' : ''}" id="timerbar"><span>⏱ ${tx('timeLeft')}</span><span class="t" id="clock">${fmtTime(remaining())}</span><span id="prog">${answeredCount()}/${e.probs.length} ${tx('answered')}</span></div>`;
+  else {
+    let tot = 0, max = 0; const rows = e.probs.map((p, i) => { const mx = itemPts(e.items[i]); const got = e.res[i].frac * mx; tot += got; max += mx; return `<tr><td>${tx('itemWord')} ${e.items[i]}</td><td>${ITEM_TITLES[e.items[i]][S.lang]}</td><td>${Math.round(got * 100) / 100} / ${mx}</td></tr>`; }).join('');
+    let grade = '';
+    if (EXAM_CFG.conv) { const pr = Math.round(tot * 100) / 100; let g = EXAM_CFG.conv[0][1]; EXAM_CFG.conv.forEach(([mn, gr]) => { if (pr >= mn) g = gr; }); grade = `<div class="big">${tx('grade')}: ${g}</div>`; } else grade = `<div class="sub">${tx('gradePending')}</div>`;
+    head = `<div class="result"><div>${tx('total')}</div><div class="big">${Math.round(tot * 100) / 100} / ${max} ${tx('pts')}</div>${grade}<table class="rt"><tr><th>${tx('itemWord')}</th><th></th><th>${tx('pts')}</th></tr>${rows}</table><div class="row" style="justify-content:center"><button class="btn" data-act="enew">${tx('newTest')}</button><button class="btn alt" data-act="epdf">${tx('pdfThis')}</button></div></div>`;
+  }
+  return `${e.done ? tabsHTML() : ""}${head}<div class="stage"><div>${body}${e.done ? '' : `<div class="controls"><button class="btn" data-act="esubmit">${tx('submitExam')}</button></div>${keypadHTML()}`}</div>${mascotHTML()}</div>`;
+}
+const remaining = () => Math.max(0, S.exam.endAt - Date.now());
+const fmtTime = ms => { const s = Math.ceil(ms / 1000); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; return `${h}:${String(m).padStart(2, '0')}:${String(x).padStart(2, '0')}`; };
+const answeredCount = () => S.exam.probs.filter((p, i) => (S.exam.vals[i] || []).some(v => String(v || '').trim())).length;
+let clockTimer = null;
+function startClock() {
+  clearInterval(clockTimer);
+  clockTimer = setInterval(() => {
+    const e = S.exam; if (!e || e.done) { clearInterval(clockTimer); return; }
+    const rem = remaining(); const c = $('#clock'); if (c) c.textContent = fmtTime(rem);
+    const pg = $('#prog'); if (pg) pg.textContent = `${answeredCount()}/${e.probs.length} ${tx('answered')}`;
+    const tb = $('#timerbar'); if (tb) tb.classList.toggle('low', rem < 600000);
+    if (rem <= 0) { eSubmit(true); }
+  }, 1000);
+}
+function eSubmit(auto) {
+  const e = S.exam; if (e.done) return; const g = gradeSet(e.probs, e.vals); e.res = g.res; e.score = g.sum; e.done = true; clearInterval(clockTimer);
+  say(g.sum >= e.probs.length * 0.5 ? MSG.ok : MSG.bad, g.sum >= e.probs.length * .5 ? 'bounce' : 'shake'); if (auto) toast(tx('timeUp')); render(); $('.paper') && $('.paper').scrollIntoView({ behavior: 'smooth' });
+}
+/* ---- fila PDF ---- */
+function pdfView() {
+  return `${tabsHTML()}<h2 class="t">${tx('pdf')}</h2><p class="sub">${tx('pdfHelp')}</p>
+  <div style="max-width:420px"><label><b>${tx('variants')}</b><br><select id="pdfN" style="width:100%;padding:8px;border:2px solid #9db3c9;border-radius:8px;margin:4px 0 10px">${Array.from({ length: 10 }, (_, k) => `<option value="${k + 1}" ${k === 0 ? 'selected' : ''}>${k + 1}</option>`).join('')}</select></label>
+  <label><b>${tx('code')}</b><br><input id="pdfCode" type="text" maxlength="12" value="${randCode()}" style="width:100%;padding:8px;border:2px solid #9db3c9;border-radius:8px;margin:4px 0 10px;text-transform:uppercase"></label><p class="sub codehelp" style="margin-top:-4px">${tx('codeHelpPdf')}</p>
+  <label style="display:block;margin-bottom:10px"><input type="checkbox" id="pdfKey" ${S.teacher ? 'checked' : 'disabled'}> ${tx('withKey')}</label>${S.teacher ? '' : `<div class="sub">🔒 ${tx('keyLocked')}</div>`}
+  <button class="btn" data-act="pdfgo">${tx('preview')}</button></div>`;
+}
+
+/* ================= randare ================= */
+function viewHTML() {
+  if (PAGE.kind === 'exam') return examView();
+  if (S.view === 'theory' && ITEMS[PAGE.n] && ITEMS[PAGE.n].theory) return theoryView();
+  if (S.view === 'example' && ITEMS[PAGE.n] && ITEMS[PAGE.n].example) return exampleView();
+  if (PAGE.kind === 'past') return pastView();
+  if (S.view === 'practice') return practiceView();
+  if (S.view === 'test') return testView();
+  if (S.view === 'pdf') return pdfView();
+  return homeView();
+}
+function render() {
+  const active = document.activeElement; let keep = null;
+  if (active && active.matches && active.matches('input.ans')) keep = { p: active.dataset.p, f: active.dataset.f, s: active.selectionStart };
+  $('#app').innerHTML = shell(viewHTML());
+  if (keep) { const el = $(`input.ans[data-p="${keep.p}"][data-f="${keep.f}"]`); if (el && !el.readOnly) { el.focus(); try { el.setSelectionRange(keep.s, keep.s); } catch (e) {} } }
+  S.mood = '';
+}
+function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2400); }
+function confetti() {
+  const em = ['⭐', '✨', '🎉', '🌟', '➕', '✖️', 'π', '📐']; for (let i = 0; i < 20; i++) { const s = document.createElement('span'); s.className = 'confetti'; s.textContent = em[i % em.length]; s.style.left = Math.random() * 100 + 'vw'; s.style.animationDelay = Math.random() * .4 + 's'; s.style.animationDuration = 1.2 + Math.random() * 1.2 + 's'; document.body.appendChild(s); setTimeout(() => s.remove(), 3000); }
+}
+function curVals() { if (PAGE.kind === 'exam') return S.exam.vals; if (S.view === 'practice') return S.pr.vals; return S.test.vals; }
+
+
+/* ================= pagina „Din examenele și exersările anterioare” ================= */
+const PTYPES = { T1: L('Test pentru exersare N1', 'Тренировочный тест N1', 'Practice test N1'), T2: L('Test pentru exersare N2', 'Тренировочный тест N2', 'Practice test N2'), P: L('Pretestare', 'Претестирование', 'Pre-test'), E: L('Sesiunea de bază', 'Основная сессия', 'Main session'), R: L('Examen repetat', 'Повторный экзамен', 'Repeat exam') };
+const PAST = window.PAST_DATA || { tasks: [], ans: {} };
+const PS = { test: null, pcount: 1, item: 0, lab: '', year: '', mode: 'single', cur: null, show: false, vset: null, showAll: false };
+const pTaskKey = t => `${t.i}|${t.l}|${t.y}`;
+const pPool = (item) => PAST.tasks.filter(t => (item ? t.i === item : (!PS.item || t.i === PS.item)) && (!PS.lab || t.l === PS.lab) && (!PS.year || t.y === PS.year));
+const pPick = a => a[Math.floor(Math.random() * a.length)];
+function pNewSingle() { const pool = pPool(); PS.cur = pool.length ? pPick(pool.length > 1 && PS.cur ? pool.filter(t => t !== PS.cur) : pool) : null; PS.show = false; }
+function pNewVar() { PS.vset = []; for (let n = 1; n <= 12; n++) { const pool = pPool(n); if (pool.length) PS.vset.push(pPick(pool)); } PS.showAll = false; }
+function pCard(t, num, show) {
+  const rows = []; for (let n = 1; n <= 12; n++) { const a = PAST.ans[`${n}|${t.l}|${t.y}`]; if (a) rows.push(`<li value="${n}">${a}</li>`); }
+  const key = S.teacher ? `<details class="key past-noprint"><summary><b>🔑 ${tx('pKey')} ${PTYPES[t.l] ? PTYPES[t.l][S.lang] : t.l} ${t.y}</b></summary><p class="sub" style="margin:6px 0">${tx('pKeyNote')}</p><ol class="pkey">${rows.join('') || tx('pNoAns')}</ol></details>` : '';
+  return `<div class="prob"><div class="pnum">${num}</div><div class="pbody"><div class="pmeta"><b>${tx('pItem')} ${t.i}</b> · ${PTYPES[t.l] ? PTYPES[t.l][S.lang] : t.l} · ${t.y}</div><div class="ptext">${t.h}</div>${key}</div></div>`;
+}
+function pastView() {
+  const years = [...new Set(PAST.tasks.map(t => t.y))].sort();
+  const sel = (id, opts, cur) => `<select id="${id}" data-pf="${id}">${opts.map(([v, l]) => `<option value="${v}" ${String(v) === String(cur) ? 'selected' : ''}>${l}</option>`).join('')}</select>`;
+  const filters = `<div class="row past-noprint pfilters"><label>${tx('pItem')} ${sel('pf-item', [[0, tx('pAll')], ...Array.from({ length: 12 }, (_, i) => [i + 1, `${i + 1} · ${ITEM_TITLES[i + 1][S.lang]}`])], PS.item)}</label>
+  <label>${tx('pType')} ${sel('pf-lab', [['', tx('pAll')], ...Object.keys(PTYPES).map(k => [k, PTYPES[k][S.lang]])], PS.lab)}</label>
+  <label>${tx('pYear')} ${sel('pf-year', [['', tx('pAll')], ...years.map(y => [y, y])], PS.year)}</label></div>`;
+  const modes = `<div class="row past-noprint"><button class="btn ${PS.mode === 'single' ? '' : 'alt'}" data-act="pmode" data-v="single">🎲 ${tx('pSingle')}</button><button class="btn ${PS.mode === 'var' ? '' : 'alt'}" data-act="pmode" data-v="var">📋 ${tx('pVar')}</button><button class="btn ${PS.mode === 'test' ? '' : 'alt'}" data-act="pmode" data-v="test">📝 ${tx('pTest')}</button></div>`;
+  let body = '';
+  if (PS.mode === 'single') {
+    if (!PS.cur) pNewSingle();
+    body = PS.cur ? `${pCard(PS.cur, '★', PS.show)}<div class="controls past-noprint"><button class="btn" data-act="pnew">🎲 ${tx('pNew')}</button></div>` : `<p class="sub">${tx('pNone')}</p>`;
+  } else if (PS.mode === 'test') {
+    body = pTestView();
+  } else {
+    if (!PS.vset) pNewVar();
+    body = `<p class="sub">${tx('pVarD')}</p>${PS.vset.map((t, i) => pCard(t, i + 1, PS.showAll)).join('') || `<p class="sub">${tx('pNone')}</p>`}<div class="controls past-noprint"><button class="btn" data-act="pnewvar">🎲 ${tx('pVar')}</button><label>${tx('pCount')}: <select id="pcount" data-pf="pcount">${Array.from({ length: 10 }, (_, i) => `<option value="${i + 1}" ${PS.pcount === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select></label><button class="btn alt" data-act="ppdf">🖨️ ${tx('pPdf')}</button></div>`;
+  }
+  return `${tabsHTML()}<h2 class="t">${tx('pastTitle')}</h2><p class="sub">${tx('pastIntro')}</p>${filters}${modes}<div class="stage"><div>${body}</div></div>`;
+}
+
+
+/* ---- test solvabil dintr-un test real ---- */
+function pGroups() { const g = {}; PAST.tasks.forEach(t => { (g[`${t.l}|${t.y}`] = g[`${t.l}|${t.y}`] || []).push(t); }); return Object.values(g).filter(a => new Set(a.map(t => t.i)).size === 12 && a.length === 12); }
+function pNewTest() { let g = pGroups().filter(a => (!PS.lab || a[0].l === PS.lab) && (!PS.year || a[0].y === PS.year)); if (PS.test && g.length > 1) g = g.filter(a => a !== PS.test.tasks); const a = g.length ? pPick(g) : null; PS.test = a ? { tasks: a.slice().sort((x, y) => x.i - y.i), vals: [], done: false, res: null } : { tasks: null }; }
+const pNum = h => { const t = String(h).replace(/<sup>.*?<\/sup>/g, '').replace(/<[^>]+>/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/[−–—]/g, '-').replace(/,(?=\d)/g, '.').replace(/\b(cm|dm|mm|km|kg|lei|ani|zile|ore|hectare|litri|grade|m)\b/gi, ' ').replace(/[°²³]/g, ''); return t; };
+function pNorm(h) { const t = pNum(h); const nums = (t.match(/-?\d+(?:\.\d+)?(?:\/\d+)?/g) || []).map(x => { const m = x.split('/'); return m.length === 2 ? +m[0] / +m[1] : +m[0]; }).sort((a, b) => a - b); const br = (t.match(/[\[\]()]/g) || []).join(''); const sg = (t.match(/[<>=]/g) || []).join(''); return { nums, br, sg, txt: t.replace(/[^\p{L}\d<>=]/gu, '').toLowerCase() }; }
+function pMatch(stu, key) { const a = pNorm(stu), b = pNorm(key); if (!a.txt) return false; if (b.nums.length && a.nums.length) return a.nums.length === b.nums.length && a.nums.every((x, i) => Math.abs(x - b.nums[i]) < 1e-6) && (!(/[\[\]]/.test(b.br) || /[\[\]]/.test(a.br)) || a.br.replace(/[()]/g, 'o') === b.br.replace(/[()]/g, 'o') && a.br === b.br) && a.sg === b.sg; return a.txt === b.txt || (a.sg && a.sg === b.sg && b.nums.length === 0 && !b.txt.replace(/[<>=]/g, '')); }
+function pSubmitTest() { const T = PS.test; const key = []; for (let n = 1; n <= 12; n++) { const a = PAST.ans[`${n}|${T.tasks[0].l}|${T.tasks[0].y}`]; key.push(a || ''); } const used = new Set(); T.res = T.tasks.map((t, i) => { const v = (T.vals[i] || '').trim(); if (!v) return false; const k = key.findIndex((kk, j) => !used.has(j) && kk && pMatch(v, kk)); if (k < 0) return false; used.add(k); return true; }); T.done = true; }
+function pTestView() {
+  const T = PS.test || (pNewTest(), PS.test); if (!T.tasks) return `<p class="sub">${tx('pNone')}</p>`;
+  const t0 = T.tasks[0]; const key = []; for (let n = 1; n <= 12; n++) { const a = PAST.ans[`${n}|${t0.l}|${t0.y}`]; if (a) key.push(`<li value="${n}">${a}</li>`); }
+  let head = `<p class="sub">${tx('pTestD')}</p><div class="row"><span class="stat">${PTYPES[t0.l][S.lang]} · ${t0.y}</span><span class="stat">${tx('maxPts')}: ${T.tasks.reduce((a, t) => a + itemPts(t.i), 0)}</span></div>`;
+  const cards = T.tasks.map((t, i) => `<div class="prob ${T.done ? (T.res[i] ? 'okp' : '') : ''}"><div class="pnum">${i + 1}</div><div class="pbody"><div class="pmeta"><b>${tx('pItem')} ${t.i}</b> · ${itemPts(t.i)} ${tx('ptsS')}</div><div class="ptext">${t.h}</div><div class="row"><input class="pin" data-pi="${i}" type="text" placeholder="${tx('pAnsPh')}" value="${String(T.vals[i] || '').replace(/"/g, '&quot;')}" ${T.done ? 'readonly' : ''}>${T.done ? (T.res[i] ? '<span class="mark ok">✓</span>' : '<span class="mark bad">?</span>') : ''}</div></div></div>`).join('');
+  let res = '';
+  if (T.done) { const sc = T.tasks.reduce((a, t, i) => a + (T.res[i] ? itemPts(t.i) : 0), 0); let g = EXAM_CFG.conv ? EXAM_CFG.conv[0][1] : ''; (EXAM_CFG.conv || []).forEach(([mn, gr]) => { if (sc >= mn) g = gr; }); res = `<div class="result"><div>${tx('pFound')}</div><div class="big">${T.res.filter(Boolean).length} / 12 · ${sc} ${tx('pts')}</div><div>${tx('grade')} (≈): ${g}</div><p class="sub">${tx('pFoundNote')}</p></div><details class="key" open><summary><b>🔑 ${tx('pOfficial')}</b></summary><ol class="pkey">${key.join('') || tx('pNoAns')}</ol></details>`; }
+  const ctl = T.done ? '' : `<div class="controls"><button class="btn" data-act="ptsubmit">${tx('pSubmit')}</button></div>`;
+  return head + res + cards + ctl + `<div class="controls past-noprint"><button class="btn alt" data-act="pnewtest">🎲 ${tx('pNewTest')}</button><button class="btn alt" data-act="ptpdf">🖨️ ${tx('pPdfThis')}</button></div>`;
+}
+/* ---- PDF pentru sarcini din examene ---- */
+const pPex = (t, num, pts) => `<div class="pex"><div class="pn">${num}.</div><div class="pc"><div class="pt">${t.h}${pts ? ` <span class="ppt">(${pts} ${tx('ptsS')})</span>` : ''}</div><div class="psrc">${tx('pItem')} ${t.i} · ${t.l} ${t.y}</div></div></div>`;
+function buildPastSheets(sheets, o, foot, fieldsLine) {
+  const r = RNG(o.base); const title = `${tx('pastTitle')}`;
+  const variants = o.fixed ? [o.fixed] : Array.from({ length: o.count }, () => { const m = []; if (PS.item) { const pool = pPool(PS.item); r.shuffle(pool.slice()).slice(0, 12).forEach(t => m.push(t)); } else for (let n = 1; n <= 12; n++) { const pool = pPool(n); if (pool.length) m.push(r.pick(pool)); } return m; });
+  const keyTests = new Map();
+  variants.forEach((main, v) => {
+    main.forEach(t => keyTests.set(`${t.l}|${t.y}`, t));
+    const used = new Set(main); const rest = r.shuffle(PAST.tasks.filter(t => (!PS.item || t.i === PS.item) && (!PS.lab || t.l === PS.lab) && (!PS.year || t.y === PS.year) && !used.has(t))); let k = 0, num = main.length;
+    paginate(sheets, { cols: 2,
+      head: () => `<div class="shead"><div class="t1">${title}</div><div class="t2"><span>${o.fixed ? PTYPES[main[0].l][S.lang] + ' · ' + main[0].y : `${tx('variant')} ${v + 1} / ${variants.length}`}</span><span>${tx('code')}: <b>${o.base}</b></span></div>${scoreLine(main.reduce((a, t) => a + itemPts(t.i), 0))}${fieldsLine}</div>`,
+      foot: foot(`${tx('variant')} ${v + 1} · ${o.base}`),
+      main: main.map((t, i) => ({ html: pPex(t, i + 1, itemPts(t.i)) })),
+      extra: o.fixed ? null : () => { const t = rest[k++]; if (!t) return null; num++; return { html: pPex(t, num) }; }, rollback: () => { k--; num--; },
+      divider: `<div class="pdiv">${tx('extra')}</div>` });
+  });
+  if (o.key && S.teacher) {
+    const items = [...keyTests.values()];
+    paginate(sheets, { cols: 2, head: () => `<div class="shead"><div class="t1">${tx('answers')} · ${title}</div><div class="t2"><span>${tx('code')}: <b>${o.base}</b></span><span>${tx('teacher')}</span></div><p style="margin:2mm 0;font-size:.85em">${tx('pKeyNote')}</p></div>`,
+      foot: foot(`${tx('answers')} · ${o.base}`),
+      main: items.flatMap(t => { const rows = []; for (let n = 1; n <= 12; n++) { const a = PAST.ans[`${n}|${t.l}|${t.y}`]; if (a) rows.push(`<div class="krow"><b>${n}.</b> ${a}</div>`); } return [{ html: `<div class="pdiv" style="font-weight:700">${PTYPES[t.l][S.lang]} ${t.y}</div>` }, ...rows.map(h => ({ html: h }))]; }), extra: null });
+  }
+}
+
+/* ================= parola profesorului ================= */
+function askPassword() {
+  const m = $('#modal'); m.innerHTML = `<div class="modal"><div class="box"><h2 class="t" style="margin-top:0">👩‍🏫 ${tx('teacher')}</h2><label>${tx('password')}</label><input type="password" id="pw" autocomplete="off"><div class="fb" id="pwerr" style="min-height:1.4em"></div><div class="row"><button class="btn" id="pwok">${tx('enter')}</button><button class="btn alt" id="pwno">${tx('cancel')}</button></div></div></div>`;
+  const pw = $('#pw'); pw.focus();
+  const go = () => { if (sha256(SALT + pw.value) === window.PASS_HASH) { S.teacher = true; try { sessionStorage.setItem('mpf-teacher', '1'); } catch (e) {} m.innerHTML = ''; render(); } else { $('#pwerr').textContent = tx('wrongPass'); pw.value = ''; pw.focus(); } };
+  $('#pwok').onclick = go; $('#pwno').onclick = () => { m.innerHTML = ''; }; pw.onkeydown = e => { if (e.key === 'Enter') go(); if (e.key === 'Escape') m.innerHTML = ''; };
+}
+
+/* ================= PDF: construcția foilor ================= */
+function pexHTML(p, num, pts) {
+  const fields = p.fields.map(f => {
+    const lab = lbl(f.label);
+    if (f.type === 'choice') return `<span class="pch">${lab}:${f.opts.map(o => `<span class="pco">☐ ${o.h[S.lang]}</span>`).join('')}</span>`;
+    return `<span>${lab} <span class="bl"></span> ${unitOf(f.unit)}</span>`;
+  }).join('');
+  return `<div class="pex"><div class="pn">${num}.</div><div class="pc"><div class="pt">${p.text(S.lang)}${pts ? ` <span class="ppt">(${pts} ${tx('ptsS')})</span>` : ''}</div><div class="pbot"><div class="pa">${fields}</div>${p.fig ? `<div class="pf">${p.fig}</div>` : ''}</div></div></div>`;
+}
+const krowHTML = (p, num) => `<div class="krow"><b>${num}.</b> ${ansHTML(p)}</div>`;
+const overflowing = cols => cols.scrollWidth > cols.clientWidth + 2;
+/* împarte pe pagini: umple coloanele până la refuz */
+function paginate(container, o) {
+  // o: {cols, head(first)->html, foot(pageNo)->html, main:[{html}], extra: ()=>{html}|null, divider:html|null}
+  let pageNo = 0; const pages = [];
+  const newPage = () => { pageNo++; const pg = document.createElement('div'); pg.className = 'sheet'; pg.innerHTML = `${pageNo === 1 ? o.head() : ''}<div class="cols c${o.cols}"></div><div class="sfoot"></div>`; container.appendChild(pg); pages.push(pg); return pg; };
+  let pg = newPage(), cols = $('.cols', pg);
+  const addEl = html => { const d = document.createElement('div'); d.innerHTML = html; const el = d.firstElementChild; cols.appendChild(el); return el; };
+  for (let i = 0; i < o.main.length; i++) {
+    let el = addEl(o.main[i].html);
+    if (overflowing(cols)) { cols.removeChild(el); if (cols.children.length === 0) { cols.appendChild(el); continue; } pg = newPage(); cols = $('.cols', pg); el = addEl(o.main[i].html); }
+  }
+  if (o.extra) {
+    let divEl = o.divider ? addEl(o.divider) : null;
+    if (divEl && overflowing(cols)) { cols.removeChild(divEl); divEl = null; o.extra = null; }
+    let guard = 0;
+    while (o.extra && guard++ < 80) {
+      const nx = o.extra(); if (!nx) break; const el = addEl(nx.html);
+      if (overflowing(cols)) { cols.removeChild(el); o.rollback && o.rollback(); break; }
+    }
+    if (divEl && cols.lastElementChild === divEl) cols.removeChild(divEl);
+  }
+  pages.forEach(p => { const c = $('.cols', p); let g = 0; while (overflowing(c) && c.children.length > 1 && g++ < 5) { c.removeChild(c.lastElementChild); o.rollback && o.extra && o.rollback(); } });
+  pages.forEach((p, k) => { $('.sfoot', p).innerHTML = o.foot(k + 1, pages.length); });
+  return pages;
+}
+const scoreLine = max => `<div class="t2 scoreln"><span>${tx('maxPts')}: <b>${Math.round(max * 100) / 100} ${tx('pts')}</b></span><span>${tx('gotPts')}: ______ / ${Math.round(max * 100) / 100} &nbsp; ${tx('grade')}: ______</span></div>`;
+function buildSheets(sheets, o) {
+  sheets.innerHTML = '';
+  const foot = (extra) => (k, n) => `<span>© 2026 Godovaniuc Ana · CC BY-NC-SA 4.0</span><span>${extra} · ${tx('page')} ${k}/${n}</span>`;
+  const fieldsLine = `<div class="t3"><span>${tx('name')}:</span><span style="flex:.45">${tx('cls')}:</span><span style="flex:.45">${tx('date')}:</span></div><div class="t3"><span>${tx('inst')}:</span></div>`;
+  if (o.kind === 'past') { buildPastSheets(sheets, o, foot, fieldsLine); const z0 = Math.min(1, (window.innerWidth - 16) / (210 * 3.7795)); sheets.style.zoom = z0 < 1 ? z0 : ''; return; }
+  const keyData = [];
+  if (o.kind === 'item') {
+    const it = ITEMS[o.n];
+    for (let v = 1; v <= o.count; v++) {
+      const code = o.exact ? o.base : `${o.base}-${v}`, shown = o.base;
+      const main = makeSet(it, code, 't', 10);
+      const used = new Set(main.map(p => p.sig)); let k = 0; const placed = main.slice();
+      const extraGen = () => { const lvl = [1, 2, 2, 3][k % 4]; const p = makeProblem(it, RNG(`${code}|${o.n}|x|${k}`), lvl, used); k++; placed.push(p); return { html: pexHTML(p, placed.length), p }; };
+      paginate(sheets, {
+        cols: 2,
+        head: () => `<div class="shead"><div class="t1">${tx('sheetTitle')} · ${tx('itemWord')} ${o.n}: ${ITEM_TITLES[o.n][S.lang]}</div><div class="t2"><span>${tx('variant')} ${v} / ${o.count}</span><span>${tx('code')}: <b>${shown}</b></span></div>${o.exact ? scoreLine(10 * itemPts(o.n)) : ''}${fieldsLine}</div>`,
+        foot: foot(`${tx('variant')} ${v} · ${shown}`),
+        main: main.map((p, i) => ({ html: pexHTML(p, i + 1, o.exact ? itemPts(o.n) : 0) })),
+        extra: o.exact ? null : extraGen, rollback: () => { placed.pop(); },
+        divider: `<div class="pdiv">${tx('extra')}</div>`
+      });
+      keyData.push({ v, code: shown, probs: placed });
+    }
+  } else {
+    const code = o.base; const its = examItems();
+    const probs = its.map(n => makeProblem(ITEMS[n], RNG(`${code}|exam|${n}`), 'exam'));
+    paginate(sheets, {
+      cols: 1,
+      head: () => `<div class="shead"><div class="t1">${tx('examTitle')}</div><div class="t2"><span>⏱ ${EXAM_CFG.minutes} ${tx('min')}</span><span>${tx('code')}: <b>${code}</b></span></div>${scoreLine(its.reduce((a, n) => a + itemPts(n), 0))}${fieldsLine}</div>`,
+      foot: foot(`${tx('code')} ${code}`),
+      main: probs.map((p, i) => ({ html: pexHTML(p, its[i], itemPts(its[i])) })), extra: null
+    });
+    keyData.push({ v: 1, code, probs, nums: its });
+  }
+  if (o.key && S.teacher) {
+    keyData.forEach(kd => {
+      let i = 0; const nums = kd.nums;
+      paginate(sheets, {
+        cols: 2,
+        head: () => `<div class="shead"><div class="t1">${tx('answers')} · ${o.kind === 'item' ? `${tx('itemWord')} ${o.n} · ${tx('variant')} ${kd.v}` : tx('examTitle')}</div><div class="t2"><span>${tx('code')}: <b>${kd.code}</b></span><span>${tx('teacher')}</span></div></div>`,
+        foot: foot(`${tx('answers')} · ${kd.code}`),
+        main: kd.probs.map((p, j) => ({ html: krowHTML(p, nums ? nums[j] : j + 1) })), extra: null
+      });
+    });
+  }
+  const z = Math.min(1, (window.innerWidth - 16) / (210 * 3.7795)); sheets.style.zoom = z < 1 ? z : '';
+}
+function openPdf(o) {
+  const ov = $('#pdfOverlay'); ov.hidden = false; document.body.style.overflow = 'hidden';
+  ov.innerHTML = `<div class="pbar"><button class="btn" id="pPrint">${tx('print')}</button><button class="btn alt" id="pTab">${tx('newTab')}</button><button class="btn warn" id="pClose">${tx('close')}</button></div><div class="sheets" id="sheets"></div>`;
+  buildSheets($('#sheets'), o);
+  $('#pClose').onclick = () => { ov.hidden = true; ov.innerHTML = ''; document.body.style.overflow = ''; };
+  $('#pPrint').onclick = () => { const z = $('#sheets').style.zoom; document.body.classList.add('printing'); try { window.print(); } finally { setTimeout(() => document.body.classList.remove('printing'), 400); } };
+  $('#pTab').onclick = () => {
+    const w = window.open('', '_blank'); if (!w) { toast('Popup blocked'); return; }
+    const css = $$('style').map(s => s.textContent).join('\n');
+    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>PDF</title><style>${css}\nbody{background:#fff!important}.sheets{zoom:1!important;display:block!important;padding:0!important}.sheet{box-shadow:none!important;margin:0 auto 6mm!important;break-after:page}</style></head><body class="printing"><div class="sheets" id="sheets">${$('#sheets').innerHTML}</div><script>window.onload=function(){setTimeout(function(){window.print()},300)}<\/script></body></html>`);
+    w.document.close();
+  };
+}
+
+/* ================= evenimente ================= */
+document.addEventListener('input', e => {
+  const t = e.target; if (!t.matches || !t.matches('input.ans')) return;
+  const i = +t.dataset.p, j = +t.dataset.f; const vals = curVals(); (vals[i] = vals[i] || [])[j] = t.value;
+  t.classList.remove('ok', 'bad');
+  if (S.view === 'practice' && S.pr && !S.pr.final && S.pr.res) { S.pr.res = null; const mk = t.parentNode.querySelector('.mark'); if (mk) mk.remove(); }
+});
+document.addEventListener('focusin', e => { const t = e.target; if (t.matches && t.matches('input.ans')) S.lastInput = t; });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches && e.target.matches('input.ans')) { if (PAGE.kind !== 'exam' && S.view === 'practice') { S.pr.final ? nextAndRender() : prCheck(); } } });
+document.addEventListener('mousedown', e => { if (e.target.closest && e.target.closest('[data-act="key"]')) e.preventDefault(); });
+function nextAndRender() { nextProblem(); S.say = null; render(); }
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-act]'); if (!b) return; const a = b.dataset.act;
+  if (a === 'pmode') { PS.mode = b.dataset.v; render(); }
+  else if (a === 'pnew') { pNewSingle(); render(); }
+  else if (a === 'pshow') { PS.show = !PS.show; render(); }
+  else if (a === 'pnewvar') { pNewVar(); render(); }
+  else if (a === 'pshowall') { PS.showAll = !PS.showAll; render(); }
+  else if (a === 'ppdf') { openPdf({ kind: 'past', count: PS.pcount, base: randCode(), key: S.teacher }); }
+  else if (a === 'ptpdf') { openPdf({ kind: 'past', fixed: PS.test.tasks, base: randCode(), key: S.teacher }); }
+  else if (a === 'pnewtest') { pNewTest(); render(); }
+  else if (a === 'ptsubmit') { pSubmitTest(); render(); window.scrollTo && window.scrollTo(0, 0); }
+  else if (a === 'lang') { S.lang = b.dataset.v; try { localStorage.setItem('mpf-lang', S.lang); } catch (x) {} render(); }
+  else if (a === 'teacher') { S.teacher ? (S.teacher = false, sessionStorage.removeItem('mpf-teacher'), render()) : askPassword(); }
+  else if (a === 'teacher-off') { S.teacher = false; try { sessionStorage.removeItem('mpf-teacher'); } catch (x) {} render(); }
+  else if (a === 'go') { S.view = b.dataset.v; if (S.view === 'practice' && !S.pr) { newPractice(0); say(MSG.hello); } render(); }
+  else if (a === 'check') prCheck();
+  else if (a === 'hint') { S.pr.hint = true; say(MSG.hint); render(); }
+  else if (a === 'sol') { S.pr.showSol = !S.pr.showSol; render(); }
+  else if (a === 'next') nextAndRender();
+  else if (a === 'opt') { const vals = curVals(); const i = +b.dataset.p, j = +b.dataset.f; (vals[i] = vals[i] || [])[j] = b.dataset.v; render(); }
+  else if (a === 'key') {
+    const inp = S.lastInput && document.body.contains(S.lastInput) ? S.lastInput : $('input.ans:not([readonly])'); if (!inp) return;
+    inp.focus(); const k = b.dataset.k; let s = inp.selectionStart == null ? inp.value.length : inp.selectionStart, en = inp.selectionEnd == null ? s : inp.selectionEnd;
+    if (k === '⌫') { if (s === en && s > 0) s--; inp.value = inp.value.slice(0, s) + inp.value.slice(en); } else { inp.value = inp.value.slice(0, s) + k + inp.value.slice(en); s += k.length; }
+    inp.setSelectionRange(s, s); inp.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  else if (a === 'tstart') { newTest(); say(MSG.hello); render(); }
+  else if (a === 'tcheck') { const c = ($('#chkcode').value || '').trim().toUpperCase(); if (c) { S.check = { code: c, probs: makeSet(ITEM(), c, 't', 10) }; render(); } }
+  else if (a === 'echeck') { const c = ($('#chkcode').value || '').trim().toUpperCase(); if (c) { const its = examItems(); S.check = { code: c, nums: its, probs: its.map(n => makeProblem(ITEMS[n], RNG(`${c}|exam|${n}`), 'exam')) }; render(); } }
+  else if (a === 'chkclear') { S.check = null; render(); }
+  else if (a === 'tload') { const c = ($('#codein').value || '').trim(); if (c) { newTest(c); render(); } }
+  else if (a === 'tsubmit') tSubmit();
+  else if (a === 'tnew') { newTest(); S.say = null; render(); window.scrollTo(0, 0); }
+  else if (a === 'tpdfnew') { const c = (($('#codein') || {}).value || '').trim().toUpperCase() || randCode(); openPdf({ kind: 'item', n: PAGE.n, count: 1, base: c, exact: true, key: S.teacher }); }
+  else if (a === 'epdfnew') { const c = (($('#codein') || {}).value || '').trim().toUpperCase() || randCode(); openPdf({ kind: 'exam', base: c, key: S.teacher }); }
+  else if (a === 'tpdf') openPdf({ kind: 'item', n: PAGE.n, count: 1, base: S.test.code, exact: true, key: S.teacher });
+  else if (a === 'estart') { newExam(); startClock(); say(MSG.hello); render(); }
+  else if (a === 'eload') { const c = ($('#codein').value || '').trim(); if (c) { newExam(c); startClock(); render(); } }
+  else if (a === 'esubmit') eSubmit(false);
+  else if (a === 'enew') { S.exam = null; render(); }
+  else if (a === 'epdf') openPdf({ kind: 'exam', base: S.exam.code, key: S.teacher });
+  else if (a === 'pdfgo') openPdf({ kind: 'item', n: PAGE.n, count: +$('#pdfN').value, base: ($('#pdfCode').value || randCode()).toUpperCase(), key: S.teacher && $('#pdfKey').checked });
+});
+document.addEventListener('input', e => { const el = e.target; if (el.matches && el.matches('input.pin') && PS.test) { PS.test.vals[+el.dataset.pi] = el.value; } });
+document.addEventListener('change', e => { const el = e.target; if (!el.dataset || !el.dataset.pf) return; const v = el.value; if (el.id === 'pcount') { PS.pcount = +v; return; } if (el.id === 'pf-item') PS.item = +v; else if (el.id === 'pf-lab') PS.lab = v; else PS.year = v; PS.cur = null; PS.vset = null; render(); });
+document.addEventListener('DOMContentLoaded', () => { document.title = (PAGE.kind === 'past' ? 'Din examenele anterioare' : PAGE.kind === 'exam' ? 'Test complet' : 'Item ' + PAGE.n) + ' · Mate pentru fiecare'; render(); });
+
+</script><!-- MateTutor – Widget plutitor cu buton rotund -->
+<!-- Lipește acest bloc înainte de </body> în pagina ta -->
+
+<div id="matetutor-launcher">
+  <button id="matetutor-btn" onclick="toggleMateTutor()" aria-label="Deschide MateTutor">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+      <circle cx="24" cy="24" r="22" fill="white" fill-opacity="0.15"/>
+      <path d="M24 8L6 18l18 10 18-10L24 8z" fill="white"/>
+      <path d="M12 22v10c0 2 5.4 6 12 6s12-4 12-6V22" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M42 18v12" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="42" cy="31" r="1.5" fill="white"/>
+      <text x="24" y="29" text-anchor="middle" font-size="10" font-weight="700" fill="#2563EB" font-family="Inter, system-ui, sans-serif">π</text>
+    </svg>
+  </button>
+  <div id="matetutor-window" style="display:none;">
+    <div id="matetutor-header">
+      <span>MateTutor</span>
+      <button onclick="toggleMateTutor()" aria-label="Închide" style="background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;">&times;</button>
+    </div>
+    <div id="matetutor-frame-wrap">
+      <div id="matetutor-loading">Se încarcă MateTutor…</div>
+      <iframe
+        id="matetutor-iframe"
+        data-src="https://matemate-tutor-bubdib.abacusai.app"
+        title="MateTutor – Tutore AI de Matematică"
+        allow="clipboard-write"
+        onload="var l=document.getElementById('matetutor-loading'); if(l) l.style.display='none';">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+  #matetutor-launcher {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  #matetutor-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #2563EB;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  #matetutor-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.5);
+  }
+  #matetutor-window {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    height: 640px;
+    max-height: calc(100vh - 120px);
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+  }
+  #matetutor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2563EB;
+    color: #fff;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 15px;
+    flex: 0 0 auto;
+  }
+  #matetutor-frame-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  #matetutor-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 14px;
+    background: #f8fafc;
+  }
+  #matetutor-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  @media (max-width: 480px) {
+    #matetutor-window {
+      width: calc(100vw - 24px);
+      right: 12px;
+      height: calc(100vh - 110px);
+    }
+  }
+</style>
+
+<script>
+  function toggleMateTutor() {
+    var w = document.getElementById('matetutor-window');
+    var b = document.getElementById('matetutor-btn');
+    var f = document.getElementById('matetutor-iframe');
+    var isOpen = (w.style.display !== 'none' && w.style.display !== '');
+    if (isOpen) {
+      w.style.display = 'none';
+      b.style.display = 'flex';
+    } else {
+      // Încarcă iframe-ul abia la prima deschidere (evită fereastra goală)
+      if (!f.src) { f.src = f.getAttribute('data-src'); }
+      w.style.display = 'flex';
+      b.style.display = 'none';
+    }
+  }
+</script>
+
+<style>@media print{#matetutor-launcher{display:none!important}}body:has(#pdfOverlay:not([hidden])) #matetutor-launcher{display:none!important}</style>
+</body></html>
